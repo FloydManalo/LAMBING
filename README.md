@@ -2,7 +2,7 @@
 
 **Learning AI for Medical Benefits, Innovation, and Nurturing Guidance** — an AI-powered healthcare literacy and campus wellness web portal concept designed to help college students navigate campus clinic services and understand how real-world artificial intelligence supports modern medical care.
 
-Developed by Francis Floyd G. Manalo, a 1st-year BS Computer Science student at Batangas State University - Alangilan, as a final project for **CC 100 – Introduction to Computing** (Category 9: Information Technology and Artificial Intelligence – AI-Powered Healthcare Systems).
+Developed by Floyd Manalo, Jesus Rombano, Yerahmiel De Roxas, and Kirby Braceros, all 1st-year BS Computer Science student at Batangas State University - Alangilan, as a final project for **CC 100 – Introduction to Computing** (Category 9: Information Technology and Artificial Intelligence – AI-Powered Healthcare Systems).
 
 ---
 
@@ -118,4 +118,23 @@ The project began as a structured concept for **CC 100** and has progressed into
 3. **Open in a Web Browser**
    Open `index.html` directly in any modern browser, or run a local development server (such as VS Code Live Server) for live reload while editing.
 4. **Backend Chatbot Integration**
-   To attach the conversational assistant, mount the
+   To attach the conversational assistant, mount the chatbot UI directly onto `<div id="chatbot-root"></div>` inside the **AI Health Hub** section of `index.html`.
+
+---
+
+## Data Sources
+
+### Currently Used
+
+- **Official Clinical AI Product Documentation:** Aidoc, Lunit, Abridge, Eko Health, Heartflow, Gleamer, Digital Diagnostics, Skin Analytics, Ultromics, and Ibex Medical Analytics.
+- **Campus Health Services Guidelines:** Standard student medical/dental clearance checklists and wellness triage thresholds.
+
+### Planned Data Sources
+
+- **Backend Conversational AI Service:** To power interactive student wellness Q&A inside `#chatbot-root`.
+
+---
+
+## Project Status
+
+**LAMBING** is an early-stage student web development project created for **CC 100 – Introduction to Computing**. Current development focuses on clear information architecture, accurate medical AI literacy, and modular frontend engineering so the conversational assistant can be seamlessly integrated by the backend developer.
