@@ -1,140 +1,100 @@
 # LAMBING
 
-**Learning AI for Medical Benefits, Innovation, and Nurturing Guidance** — an AI-powered healthcare literacy and campus wellness web portal concept designed to help college students navigate campus clinic services and understand how real-world artificial intelligence supports modern medical care.
+**Learning AI for Medical Benefits, Innovation, and Nurturing Guidance** — a simple, student-friendly website that explains how real-world artificial intelligence helps doctors and patients in healthcare, paired with basic campus wellness tips for college students.
 
-Developed by Floyd Manalo, Jesus Rombano, Yerahmiel De Roxas, and Kirby Braceros, all 1st-year BS Computer Science student at Batangas State University - Alangilan, as a final project for **CC 100 – Introduction to Computing** (Category 9: Information Technology and Artificial Intelligence – AI-Powered Healthcare Systems).
-
----
+Developed by Floyd Manalo, Jesus Rombano, Yerahmiel De Roxas, and Kirby Braceros, 1st-year BS Computer Science students at Batangas State University - Alangilan, for **CC 100 – Introduction to Computing** (Category 9: Information Technology and Artificial Intelligence – AI-Powered Healthcare Systems).
 
 ## The Problem
 
-Campus health services frequently experience congestion from routine student inquiries—such as medical and dental clearance requirements—while students often lack a single, trustworthy guide on when to rest at home versus when to visit the university clinic.
+Artificial intelligence is already helping hospitals spot diseases earlier, handle emergencies faster, and give doctors more time with patients. However, most explanations online are either too technical for students to read or mixed up with sci-fi myths and unverified health advice.
 
-At the same time, artificial intelligence is rapidly transforming clinical diagnostics and hospital workflows, yet many students encounter either overly technical medical literature or unverified health advice online.
+At the same time, campus clinics often get busy with basic questions—like medical clearance requirements—while students sometimes just need a quick guide on when to rest and when to see the school nurse.
 
-**LAMBING** explores how a structured web interface can combine practical campus wellness protocols, clear profiles of verified medical AI systems, and a modular conversational assistant.
-
----
+**LAMBING** solves both by explaining the real benefits of medical AI in plain language while sharing helpful campus wellness reminders.
 
 ## The Idea
 
-LAMBING aims to bring together:
+LAMBING focuses on **three main ways AI helps in healthcare**, backed by real tools used in hospitals today:
 
-- **Campus Care Protocols** – Step-by-step student guidance for medical and dental clearance, fever monitoring, academic burnout, and minor first aid.
-- **Clinical AI Directory** – Accessible breakdowns of 10 real-world AI healthcare systems across medical imaging, cardiology, early screening, and clinical documentation.
-- **Responsible AI Literacy** – Transparent summaries of how each AI tool works, its clinical benefits, its technical limitations, and why physician verification remains essential.
-- **Modular AI Companion Mount** – A dedicated `#chatbot-root` frontend container prepared for a backend developer to integrate an interactive campus wellness assistant.
+* **Faster Emergency Triage** – AI quickly checks medical scans to spot urgent problems like strokes or broken bones so emergency teams can treat critical patients right away (`Aidoc`, `Gleamer`).
+* **Earlier Disease Detection** – AI helps doctors catch early warning signs in X-rays, heart sounds, eye scans, skin checks, and lab tests while illnesses are still easier to treat (`Lunit`, `Eko Health`, `Heartflow`, `LumineticsCore`, `Skin Analytics`, `Ultromics`, `Ibex`).
+* **Less Paperwork, More Human Care** – AI note-taking tools listen during checkups and write down clinical notes automatically, giving doctors more time to talk with their patients (`Abridge`).
 
-The portal is designed strictly as an educational and non-diagnostic health literacy tool—helping students make informed decisions without replacing licensed healthcare professionals.
+To make the site extra useful for students, we also included:
 
----
+* **Quick Campus Care Guides** – Simple checklists for medical/dental clearance, fever care, screen-time eye strain, and minor first aid.
+* **Q&A Chat Box (`#chatbot-root`)** – A dedicated spot on the page where our backend teammate can connect a simple Q&A assistant to answer student questions about medical AI.
 
 ## Clinical AI System Research
 
-To ground the platform in actual medical technology rather than speculative concepts, 10 deployed healthcare AI platforms were reviewed using official product documentation and clinical overviews across four specialties: **Medical Imaging**, **Heart & Vitals**, **Early Screening**, and **Clinical Assistant**.
+Instead of using fictional examples, we researched 10 real healthcare AI tools using their official product guides across four areas: **Medical Imaging**, **Heart & Vitals**, **Early Screening**, and **Clinical Assistant**.
 
-### Systems Reviewed
+### The 10 AI Tools We Reviewed
 
-1. **Aidoc** *(Medical Imaging)*
-   - Analyzes radiology scans to flag urgent findings such as strokes and brain aneurysms, alerting care teams to prioritize time-sensitive cases.
-2. **Lunit** *(Medical Imaging)*
-   - Uses deep learning to examine chest X-rays, mammograms, and tissue samples to support earlier cancer detection and treatment research.
-3. **Abridge** *(Clinical Assistant)*
-   - Converts doctor-patient consultations into structured clinical notes, reducing documentation workload so clinicians can focus on patients.
-4. **Eko Health – SENSORA** *(Heart & Vitals)*
-   - Pairs with digital stethoscopes to analyze heart sounds and electrical signals for irregular heartbeats (such as atrial fibrillation) and murmurs.
-5. **Heartflow Analysis** *(Heart & Vitals)*
-   - Builds 3D models of coronary arteries from existing CT scans to evaluate plaque buildup and estimate how narrowing affects blood flow.
-6. **Gleamer** *(Medical Imaging)*
-   - Provides specialized radiography and CT modules (*BoneView*, *ChestView*, *LungCT*, *BreastView*) to assist clinicians in detecting fractures and abnormalities.
-7. **Digital Diagnostics – LumineticsCore** *(Early Screening)*
-   - Analyzes retinal images in adults with diabetes to detect early signs of diabetic retinopathy without specialist wait times.
-8. **Skin Analytics – DERM** *(Early Screening)*
-   - Evaluates detailed images of moles and skin lesions to flag potential skin cancer and prioritize high-risk specialist referrals.
-9. **Ultromics – EchoGo** *(Heart & Vitals)*
-   - Analyzes echocardiogram ultrasound images to help clinicians identify complex conditions such as HFpEF and cardiac amyloidosis.
-10. **Ibex Medical Analytics** *(Early Screening)*
-    - Examines digitized biopsy tissue slides to assist pathologists in identifying breast, prostate, and stomach cancers.
+1. **Aidoc** *(Medical Imaging)* – Checks scans right away to spot urgent conditions like strokes and brain aneurysms so emergency teams can act faster.
+2. **Lunit** *(Medical Imaging)* – Examines chest X-rays, mammograms, and tissue samples to help doctors detect signs of cancer earlier.
+3. **Abridge** *(Clinical Assistant)* – Turns doctor-patient conversations into organized medical notes automatically, cutting down paperwork for doctors.
+4. **Eko Health – SENSORA** *(Heart & Vitals)* – Pairs with digital stethoscopes to detect irregular heartbeats (like atrial fibrillation) and heart murmurs during checkups.
+5. **Heartflow Analysis** *(Heart & Vitals)* – Builds a 3D model of a patient's heart arteries from a CT scan to check how plaque affects blood flow.
+6. **Gleamer** *(Medical Imaging)* – Uses specialized X-ray and CT tools (*BoneView*, *ChestView*, *LungCT*, *BreastView*) to help clinicians spot fractures and abnormalities quickly.
+7. **Digital Diagnostics – LumineticsCore** *(Early Screening)* – Checks eye scans in adults with diabetes to catch early signs of diabetic eye disease without long wait times.
+8. **Skin Analytics – DERM** *(Early Screening)* – Analyzes close-up photos of moles and skin spots to flag possible skin cancer and prioritize urgent dermatologist visits.
+9. **Ultromics – EchoGo** *(Heart & Vitals)* – Reviews heart ultrasound scans to help doctors spot tricky heart conditions that are easy to miss.
+10. **Ibex Medical Analytics** *(Early Screening)* – Helps pathologists review digital biopsy slides to detect breast, prostate, and stomach cancers more accurately.
 
-### Initial Observations
+### What We Learned
 
-- **Assistive triage over automation:** Deployed clinical AI systems primarily flag urgent cases or subtle patterns for human review rather than issuing autonomous diagnoses.
-- **Reducing clinician burnout:** Ambient documentation tools like Abridge demonstrate how AI can improve patient care indirectly by returning consultation time to doctors.
-- **Mandatory human oversight:** Every reviewed platform requires confirmation from a licensed physician or specialist due to potential false positives and imaging constraints.
-- **Student relevance:** While hospital imaging suites are operated by specialists, organizing their capabilities clearly helps students understand how modern healthcare systems work.
+* **AI helps doctors—it doesn't replace them:** Every tool we studied works like a smart second pair of eyes, and a licensed doctor still makes the final call.
+* **Speed matters in emergencies:** Tools like Aidoc and Gleamer help hospital teams spot critical injuries and strokes much sooner.
+* **Catching illness early saves lives:** Screening tools help doctors find subtle health issues before they get worse.
+* **AI can make care feel more personal:** Tools like Abridge handle repetitive typing so doctors can focus face-to-face on their patients.
 
----
+## Limitations
 
-## Research & System Limitations
+* **For learning only (not medical advice):** LAMBING is an educational website. It cannot diagnose symptoms or replace a visit to a doctor or campus nurse.
+* **Campus details may change:** Clearance steps and clinic hours follow general campus routines and may vary by semester.
+* **Frontend-only for now:** The website layout, filters, and tool popups are ready, while the live Q&A chat box is waiting for backend integration.
 
-The clinical tool summaries presented in LAMBING are compiled from official vendor documentation and public product descriptions rather than independent clinical trials.
-
-- **Non-diagnostic boundary:** LAMBING provides general health literacy and campus clinic navigation only; it cannot diagnose symptoms or replace medical consultation.
-- **Institutional variation:** Medical clearance requirements and operating hours reflect general campus clinic workflows and may vary depending on academic term guidelines.
-- **Frontend-only scope:** The repository currently covers frontend structure, content, and UI interactivity while awaiting backend chatbot integration.
-
----
-
-## Current Development Progress
-
-The project began as a structured concept for **CC 100** and has progressed into a responsive multi-section web prototype.
+## Development Progress
 
 ### Completed
 
-- Designed and built the single-page semantic layout (`index.html`) and responsive stylesheet (`css/style.css`).
-- Compiled structured research profiles and interactive detail modals (`js/tools-data.js`) for all 10 medical AI platforms.
-- Implemented category filtering (*All Systems*, *Medical Imaging*, *Heart & Vitals*, *Early Screening*, *Clinical Assistant*).
-- Added four campus care guides and campus clinic desk contact details.
-- Created an isolated `#chatbot-root` mount frame in the AI Health Hub for backend integration.
+* Built the responsive webpage layout (`index.html`) and styling (`css/style.css`).
+* Added interactive detail popups (`js/tools-data.js`) showing how each of the 10 medical AI tools works, along with its pros and limitations.
+* Added category filter buttons (*All Systems*, *Medical Imaging*, *Heart & Vitals*, *Early Screening*, *Clinical Assistant*).
+* Wrote student-friendly campus care guides and responsible AI reminders.
+* Prepared an empty `#chatbot-root` container for our backend developer to connect the Q&A chat feature.
 
 ### Next Steps
 
-- Integrate the live conversational AI service developed by the backend developer into `#chatbot-root`.
-- Populate `assets/images/` with high-resolution, properly licensed clinical and campus wellness photographs.
-- Refine desktop and mobile component layouts in Google Stitch and Figma before final project presentation.
-
-**Current limitation:** The existing build renders static campus care guides, interactive AI system modals, and a ready backend mount container, but does not yet feature live chatbot responses or functional form submission.
-
----
+* Connect the live Q&A assistant into `#chatbot-root`.
+* Add local medical and campus wellness photos inside `assets/images/`.
+* Do final copy and layout checks before our CC 100 presentation.
 
 ## Project Files
 
 | File | Description |
 | :--- | :--- |
-| `index.html` | Main single-page structure containing the hero, initiative overview, 10-tool directory, care guides, modal, and `#chatbot-root` mount. |
-| `css/style.css` | Responsive layout grids, typography rules, theme variables, and modal styling. |
-| `js/tools-data.js` | Research dataset for the 10 clinical AI systems, category filter logic, and detail modal controller. |
-| `assets/icons/favicon.svg` | Custom SVG medical cross brand icon. |
-| `assets/images/` | Local directory for hero, initiative, and medical AI platform photographs. |
-
----
+| `index.html` | Main webpage with the hero banner, medical AI benefits, 10-tool directory, care guides, detail popup, and `#chatbot-root` box. |
+| `css/style.css` | Stylesheet for page layout, colors, fonts, mobile responsiveness, and popups. |
+| `js/main.js` | Handles navigation and general page interactions. |
+| `js/tools-data.js` | Stores info for all 10 medical AI tools, category filters, and popup controls. |
+| `js/chatbot.js` | Script file ready for mounting the Q&A assistant inside `#chatbot-root`. |
+| `assets/icons/favicon.svg` | Medical cross icon for the browser tab and navbar. |
+| `assets/images/` | Folder for local hero, wellness, and medical AI images. |
 
 ## How to Run
 
-1. **Clone or Download the Repository**
-   Download the project folder to your local machine.
-2. **Add Local Image Assets (Optional)**
-   Place `.jpg` photographs inside `assets/images/` matching the filenames referenced in `index.html` (`hero-medical.jpg`, `about-care.jpg`, and `tool-*.jpg`). Built-in gradient fallbacks prevent broken layouts if images are omitted.
-3. **Open in a Web Browser**
-   Open `index.html` directly in any modern browser, or run a local development server (such as VS Code Live Server) for live reload while editing.
-4. **Backend Chatbot Integration**
-   To attach the conversational assistant, mount the chatbot UI directly onto `<div id="chatbot-root"></div>` inside the **AI Health Hub** section of `index.html`.
-
----
+1. **Download the Project** – Save the `LAMBING` folder to your computer.
+2. **Add Images (Optional)** – Place `.jpg` photos inside `assets/images/` (`hero-medical.jpg`, `about-care.jpg`, and `tool-*.jpg`). Built-in gradient backgrounds keep cards looking neat even without images.
+3. **Open in a Browser** – Double-click `index.html` to view the website, or open it using VS Code **Live Server**.
+4. **Connect the Q&A Bot (Backend)** – Mount the conversational Q&A UI inside `<div id="chatbot-root"></div>` in `index.html`.
 
 ## Data Sources
 
-### Currently Used
-
-- **Official Clinical AI Product Documentation:** Aidoc, Lunit, Abridge, Eko Health, Heartflow, Gleamer, Digital Diagnostics, Skin Analytics, Ultromics, and Ibex Medical Analytics.
-- **Campus Health Services Guidelines:** Standard student medical/dental clearance checklists and wellness triage thresholds.
-
-### Planned Data Sources
-
-- **Backend Conversational AI Service:** To power interactive student wellness Q&A inside `#chatbot-root`.
-
----
+* **Official Medical AI Product Guides:** Aidoc, Lunit, Abridge, Eko Health, Heartflow, Gleamer, Digital Diagnostics, Skin Analytics, Ultromics, and Ibex Medical Analytics.
+* **Campus Health Services Guidelines:** General student medical/dental clearance checklists and basic wellness reminders.
 
 ## Project Status
 
-**LAMBING** is an early-stage student web development project created for **CC 100 – Introduction to Computing**. Current development focuses on clear information architecture, accurate medical AI literacy, and modular frontend engineering so the conversational assistant can be seamlessly integrated by the backend developer.
+**LAMBING** is an active 1st-year student project for **CC 100 – Introduction to Computing**. Right now, the frontend layout and medical AI research are complete, and the `#chatbot-root` container is ready for our backend teammate to plug in the Q&A assistant.
