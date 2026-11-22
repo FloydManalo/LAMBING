@@ -1,37 +1,206 @@
-// Data for the 10 AI systems. Each key matches a card and the modal.
-const aiToolsData = {
-aidoc:{code:"SYS-01",name:"Aidoc",cat:"imaging",area:"Medical imaging · Radiology & brain scans",tag:"Spots urgent scan results fast",tech:"Image analysis and machine learning (software that learns from many scans).",does:"Checks medical scans for urgent problems like stroke, brain aneurysm and blood vessel issues. It alerts the care team right away, helps plan follow-ups and works with hospital systems.",pros:"Urgent cases are found sooner, so scans wait less.",cons:"It can be wrong, a doctor must check it, it needs compatible hospital systems and it is costly.",url:"https://www.aidoc.com/"},
-lunit:{code:"SYS-02",name:"Lunit",cat:"imaging",area:"Medical imaging · Cancer & chest screening",tag:"Looks for cancer signs in X-rays and tissue images",tech:"Deep learning (AI that learns patterns from images) and tissue image analysis.",does:"Reads chest X-rays, mammograms and cancer tissue images to spot signs of breast cancer and chest problems. It also supports cancer treatment research.",pros:"Helps find cancer early and speeds up image review.",cons:"A doctor must confirm results, it needs special equipment and it is not available everywhere.",url:"https://www.lunit.io/en/"},
-abridge:{code:"SYS-03",name:"Abridge",cat:"workflow",area:"Clinical assistant · Medical notes",tag:"Writes visit notes so doctors can listen",tech:"Speech recognition and generative AI (AI that writes text).",does:"Summarizes a patient’s history before a visit, turns the doctor-patient talk into organized notes, and prepares follow-up and billing records.",pros:"Less paperwork, so doctors can focus on listening.",cons:"It can mishear or write wrong notes that doctors must fix, and it needs strong privacy protection.",url:"https://www.abridge.com/"},
-eko:{code:"SYS-04",name:"Eko Health – SENSORA",cat:"heart",area:"Heart & vitals · Digital stethoscope",tag:"Listens to the heart with AI",tech:"Machine learning with heart sound and electrical signal analysis.",does:"Works with digital stethoscopes to analyze heart sounds and signals. It helps detect atrial fibrillation (irregular heartbeat), heart murmurs and a weak heart pump.",pros:"Gives screening results during a regular check-up.",cons:"It cannot detect every heart problem, needs compatible stethoscopes and a doctor must confirm.",url:"https://www.ekohealth.com/pages/sensora"},
-heartflow:{code:"SYS-05",name:"Heartflow Analysis",cat:"heart",area:"Heart & vitals · 3D heart artery model",tag:"Builds 3D models of heart arteries",tech:"AI with 3D modeling and blood flow analysis.",does:"Uses an existing CT scan to build a 3D model of the heart’s arteries. It shows plaque buildup and how much narrowing slows blood flow.",pros:"Guides heart artery decisions without extra invasive tests.",cons:"Depends on good CT scans and is not right for every patient.",url:"https://www.heartflow.com/"},
-gleamer:{code:"SYS-06",name:"Gleamer",cat:"imaging",area:"Medical imaging · X-ray & CT tools",tag:"Helps read X-rays and CT scans",tech:"Deep learning, automatic measurements and AI-assisted reports.",does:"A set of tools: BoneView (fractures), ChestView (chest X-rays), BoneMetrics (bone and joint measures), LungCT (lung nodules), BreastView (mammograms) and AutoReport.",pros:"Speeds up measuring and report writing.",cons:"Can miss things or raise false alarms, and needs compatible imaging systems.",url:"https://www.gleamer.ai/"},
-luminetics:{code:"SYS-07",name:"Digital Diagnostics – LumineticsCore",cat:"screening",area:"Early screening · Diabetic eye check",tag:"Screens diabetic eyes without a specialist",tech:"Machine learning with retina image analysis.",does:"Checks eye (retina) photos of adults aged 22+ with diabetes for diabetic retinopathy, eye damage caused by diabetes, without waiting for an eye specialist.",pros:"Fast eye screening right at the clinic.",cons:"Only for eligible patients with diabetes, cannot find every eye disease and does not replace a full eye exam.",url:"https://www.digitaldiagnostics.com/products/eye-disease/lumineticscore/"},
-derm:{code:"SYS-08",name:"Skin Analytics – DERM",cat:"screening",area:"Early screening · Skin spot triage",tag:"Sorts risky moles for specialists",tech:"Deep learning with skin image analysis.",does:"Looks at detailed photos of moles and skin spots to flag possible skin cancer and send the highest-risk cases to specialists first.",pros:"Shorter waits for specialists and faster sorting of worrying spots.",cons:"Needs clear photos, cannot judge every skin condition, and suspicious spots still need a specialist or biopsy.",url:"https://skin-analytics.com/"},
-echogo:{code:"SYS-09",name:"Ultromics – EchoGo",cat:"heart",area:"Heart & vitals · Heart ultrasound",tag:"Finds hidden heart failure in ultrasound",tech:"Deep learning with heart ultrasound (echocardiogram) analysis.",does:"Analyzes heart ultrasound images to find hard-to-spot problems such as HFpEF (a type of heart failure) and cardiac amyloidosis.",pros:"Catches subtle heart problems earlier.",cons:"Depends on ultrasound image quality and cannot confirm a diagnosis by itself.",url:"https://www.ultromics.com/"},
-ibex:{code:"SYS-10",name:"Ibex Medical Analytics",cat:"screening",area:"Early screening · Biopsy slides",tag:"Helps pathologists check biopsies",tech:"Deep learning and digital tissue image analysis.",does:"Examines scanned biopsy slides to help pathologists find breast, prostate and stomach cancers and review the riskiest cases first.",pros:"Makes biopsy review more consistent and faster.",cons:"Needs digital slide scanners and specialist confirmation, and approval varies by country.",url:"https://ibex-ai.com/solutions/"}
-};
-const img = k => `url(assets/images/tool-${k}.jpg), url(assets/images/tool-${k}.svg), linear-gradient(135deg,#ff8a3d,#ff4a1c)`;
-const grid = document.getElementById('tool-grid'), modal = document.getElementById('tool-modal');
-grid.innerHTML = Object.entries(aiToolsData).map(([k,t]) => `
-<button class="card" data-cat="${t.cat}" onclick="openToolModal('${k}')">
-<span class="thumb" style="background-image:${img(k)}"></span>
-<span class="mono">${t.code}</span><strong>${t.name}</strong><small>${t.tag}</small></button>`).join('');
-// Filter: show only cards whose data-cat matches the clicked tab.
-document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('[data-filter]').forEach(x => x.setAttribute('aria-pressed', x === b));
-  grid.querySelectorAll('.card').forEach(c => c.hidden = b.dataset.filter !== 'all' && c.dataset.cat !== b.dataset.filter);
-}));
-function openToolModal(key){
-  const t = aiToolsData[key];
-  modal.querySelector('.body').innerHTML = `<p class="mono">${t.code} · ${t.area}</p><h3>${t.name}</h3>
-  <p class="lead">${t.tag}</p>
-  <h5>What it does</h5><p>${t.does}</p>
-  <h5>AI technology</h5><p>${t.tech}</p>
-  <div class="mg"><div class="pro"><h5>Helps with</h5><p>${t.pros}</p></div><div class="con"><h5>Keep in mind</h5><p>${t.cons}</p></div></div>
-  <p class="note">A licensed physician must always review and confirm results from this system.</p>
-  <a class="btn" href="${t.url}" target="_blank" rel="noopener">Visit official website</a>`;
-  modal.showModal();
+const TOOLS = [
+  {
+    key: 'aidoc',
+    name: 'Aidoc',
+    category: 'imaging',
+    catLabel: 'Medical Imaging',
+    short: 'Flags strokes, brain aneurysms, and urgent findings on medical scans.',
+    purpose: 'Helps doctors identify urgent medical conditions and coordinate patient care across radiology, heart care, and brain and blood vessel care.',
+    functions: 'Analyzes medical scans for stroke, brain aneurysms, and blood vessel issues; sends urgent alerts to care teams; supports follow-up across hospital systems.',
+    helps: 'Helps doctors spot critical scans immediately and improves team communication, reducing delays in patient assessment and treatment.',
+    pros: 'Identifies urgent cases fast; improves medical team coordination; organizes patient management; reduces scan review delays.',
+    cons: 'May produce incorrect findings; requires doctor review; needs compatible hospital systems; costly installation and maintenance.',
+    tech: 'Medical image analysis, machine learning, and automated alerts',
+    url: 'https://www.aidoc.com/',
+    bg: 'linear-gradient(135deg,#ff4a1c,#2c0c04)'
+  },
+  {
+    key: 'lunit',
+    name: 'Lunit',
+    category: 'imaging',
+    catLabel: 'Medical Imaging',
+    short: 'Examines chest X-rays, mammograms, and tissue samples for early cancer signs.',
+    purpose: 'Uses AI to help doctors detect cancer early, review medical images, and support cancer treatment research.',
+    functions: 'Analyzes chest X-rays and mammograms for breast cancer and chest abnormalities; analyzes cancer tissue images for treatment planning.',
+    helps: 'Helps doctors review screening images more efficiently and highlights signs needing further testing, supporting earlier detection for patients.',
+    pros: 'Supports cancer screening and early detection; speeds up image review; aids cancer research; offers multiple oncology AI tools.',
+    cons: 'May produce incorrect findings; requires physician confirmation; needs specialized medical equipment; limited availability in some countries.',
+    tech: 'Deep learning, medical image analysis, and AI-based tissue analysis',
+    url: 'https://www.lunit.io/en/',
+    bg: 'linear-gradient(135deg,#d9381e,#141414)'
+  },
+  {
+    key: 'gleamer',
+    name: 'Gleamer',
+    category: 'imaging',
+    catLabel: 'Medical Imaging',
+    short: 'Detects bone fractures, lung nodules, and chest or breast abnormalities on scans.',
+    purpose: 'Develops specialized AI imaging tools (BoneView, ChestView, BoneMetrics, LungCT, BreastView, AutoReport) to make scan reviews faster and more accurate.',
+    functions: 'Detects bone fractures on X-rays, chest abnormalities, lung nodules on CT scans, and breast abnormalities on mammograms; automates bone measurements and draft reports.',
+    helps: 'Reduces time spent on routine measurements and report drafting while helping doctors spot subtle injuries or illnesses sooner.',
+    pros: 'Spots subtle abnormalities; speeds up medical image review; cuts down repetitive measurement and reporting tasks; covers multiple scan types.',
+    cons: 'May produce incorrect results; requires physician review; needs compatible imaging systems; availability varies by healthcare facility.',
+    tech: 'Deep learning, medical image analysis, automated measurements, and AI-assisted reporting',
+    url: 'https://www.gleamer.ai/',
+    bg: 'linear-gradient(135deg,#ff7a3d,#1e1410)'
+  },
+  {
+    key: 'eko',
+    name: 'Eko Health – SENSORA',
+    category: 'heart',
+    catLabel: 'Heart & Vitals',
+    short: 'Pairs with digital stethoscopes to spot irregular heartbeats and murmurs.',
+    purpose: 'Analyzes heart sounds and electrical signals during routine exams to help clinicians spot heart conditions that need further testing.',
+    functions: 'Analyzes stethoscope audio and ECG signals; detects atrial fibrillation (irregular heartbeat), structural heart murmurs, and signs of reduced heart pumping ability.',
+    helps: 'Gives doctors real-time insights during routine checkups, supporting earlier heart testing for patients.',
+    pros: 'Identifies key heart conditions; delivers results during routine exams; supports earlier assessment; works with compatible digital stethoscopes.',
+    cons: 'Cannot detect every heart condition; requires compatible hardware; requires doctor review; intended for specific patient groups and settings.',
+    tech: 'Machine learning, heart sound analysis, and electrical signal analysis',
+    url: 'https://www.ekohealth.com/pages/sensora',
+    bg: 'linear-gradient(135deg,#198f70,#0b1f1a)'
+  },
+  {
+    key: 'heartflow',
+    name: 'Heartflow Analysis',
+    category: 'heart',
+    catLabel: 'Heart & Vitals',
+    short: 'Builds a 3D model of heart arteries from a CT scan to assess blood flow.',
+    purpose: 'Creates a detailed 3D model of a patient’s coronary arteries from CT scan images to assess coronary artery disease.',
+    functions: 'Analyzes coronary CT scans; builds 3D artery models; assesses plaque buildup and estimates how narrowed arteries affect blood flow.',
+    helps: 'Helps doctors evaluate artery blockages without immediate invasive procedures and decide on the best next steps for treatment.',
+    pros: 'Provides detailed 3D artery insights; helps assess coronary artery disease; guides treatment decisions; uses an existing CT scan.',
+    cons: 'Requires a suitable CT scan; not intended for every patient or heart condition; sensitive to image quality; must be reviewed with other medical info.',
+    tech: 'Artificial intelligence, 3D modeling, and computer-based blood flow analysis',
+    url: 'https://www.heartflow.com/',
+    bg: 'linear-gradient(135deg,#2fe0b0,#102420)'
+  },
+  {
+    key: 'ultromics',
+    name: 'Ultromics – EchoGo',
+    category: 'heart',
+    catLabel: 'Heart & Vitals',
+    short: 'Reviews heart ultrasound scans to detect hidden heart failure conditions.',
+    purpose: 'Analyzes heart ultrasound (echocardiogram) images to help doctors identify complex heart conditions like HFpEF and cardiac amyloidosis.',
+    functions: 'Evaluates ultrasound images of the heart; screens for signs of heart failure with preserved ejection fraction (HFpEF) and cardiac amyloidosis.',
+    helps: 'Helps doctors recognize subtle heart conditions that are hard to catch in routine exams, reducing delays in follow-up care.',
+    pros: 'Identifies hard-to-spot heart diseases; enhances heart ultrasound exams; gives extra diagnostic context; reduces assessment delays.',
+    cons: 'Does not detect all heart diseases; requires suitable ultrasound image quality; cannot confirm a diagnosis alone; requires combined medical testing.',
+    tech: 'Deep learning and ultrasound image analysis',
+    url: 'https://www.ultromics.com/',
+    bg: 'linear-gradient(135deg,#1d6b57,#0c1412)'
+  },
+  {
+    key: 'luminetics',
+    name: 'Digital Diagnostics – LumineticsCore',
+    category: 'screening',
+    catLabel: 'Early Screening',
+    short: 'Screens eye scans in adults with diabetes to catch diabetic eye disease early.',
+    purpose: 'Detects more than mild diabetic retinopathy in adults aged 22+ with diabetes so vision-threatening eye disease is caught early.',
+    functions: 'Analyzes retinal images from the back of the eye; provides point-of-care screening results without waiting for a specialist to read every image.',
+    helps: 'Makes diabetic eye screening accessible during regular clinic visits and identifies patients who need prompt referral to an eye doctor.',
+    pros: 'Fast screening results; supports early detection of diabetic eye disease; increases screening access; works without on-site specialist interpretation.',
+    cons: 'Intended only for eligible adults with diabetes; cannot detect all eye diseases; may produce incorrect results; does not replace a full eye exam.',
+    tech: 'Machine learning and AI retinal image analysis',
+    url: 'https://www.digitaldiagnostics.com/products/eye-disease/lumineticscore/',
+    bg: 'linear-gradient(135deg,#c98a2c,#1c1408)'
+  },
+  {
+    key: 'derm',
+    name: 'Skin Analytics – DERM',
+    category: 'screening',
+    catLabel: 'Early Screening',
+    short: 'Analyzes close-up photos of moles and skin spots for possible skin cancer.',
+    purpose: 'Examines detailed images of moles and skin lesions to assess skin cancer risk and prioritize specialist dermatology care.',
+    functions: 'Analyzes close-up dermoscopic photos of skin spots; classifies whether a lesion appears low-risk or requires urgent dermatologist review.',
+    helps: 'Reduces unnecessary clinic visits for low-risk skin spots while helping patients with suspicious lesions see a specialist faster.',
+    pros: 'Supports early skin cancer detection; reduces specialist wait times; makes skin triage more efficient; prioritizes high-risk patients.',
+    cons: 'May produce incorrect results; requires clear, properly captured images; cannot assess every skin condition; suspicious cases still need specialist exams.',
+    tech: 'Deep learning and AI dermatology image analysis',
+    url: 'https://skin-analytics.com/',
+    bg: 'linear-gradient(135deg,#e09f3e,#21170a)'
+  },
+  {
+    key: 'ibex',
+    name: 'Ibex Medical Analytics',
+    category: 'screening',
+    catLabel: 'Early Screening',
+    short: 'Helps pathologists review digital biopsy slides for breast, prostate, and stomach cancer.',
+    purpose: 'Analyzes digital pathology slides of tissue samples to help specialists detect cancer cells and prioritize urgent cases.',
+    functions: 'Scans digital biopsy tissue slides; flags suspicious cancer cells across breast, prostate, and stomach tissue; organizes cases for closer review.',
+    helps: 'Improves review efficiency and consistency for pathologists, supporting timely and accurate cancer diagnoses for patients.',
+    pros: 'Supports cancer detection and diagnosis; speeds up tissue slide review; adds diagnostic insights; improves review consistency.',
+    cons: 'May miss abnormalities or produce false flags; requires digital pathology scanners; requires specialist confirmation; regional approvals vary.',
+    tech: 'Deep learning, digital tissue image analysis, and machine learning',
+    url: 'https://ibex-ai.com/solutions/',
+    bg: 'linear-gradient(135deg,#9e6b21,#17120b)'
+  },
+  {
+    key: 'abridge',
+    name: 'Abridge',
+    category: 'workflow',
+    catLabel: 'Clinical Assistant',
+    short: 'Turns doctor-patient conversations into organized medical notes automatically.',
+    purpose: 'Reduces clinical documentation burden before, during, and after appointments so doctors can focus on listening to patients.',
+    functions: 'Summarizes patient records before visits; converts consultation conversations into structured clinical notes and follow-up summaries.',
+    helps: 'Saves doctors hours of typing and helps organize medical records, giving patients more eye contact and clearer explanations during visits.',
+    pros: 'Cuts documentation time; organizes patient records; lets doctors focus on patients; improves care team communication.',
+    cons: 'May misunderstand parts of conversations; draft notes can contain errors; requires doctor review and editing; demands strict patient data privacy.',
+    tech: 'Speech recognition, generative AI, and natural language processing',
+    url: 'https://www.abridge.com/',
+    bg: 'linear-gradient(135deg,#6d4aff,#161029)'
+  }
+];
+
+const grid = document.getElementById('tool-grid');
+const modal = document.getElementById('tool-modal');
+const body = modal.querySelector('.body');
+
+function renderGrid(filter = 'all') {
+  grid.innerHTML = TOOLS.map(t => `
+    <button class="card" data-key="${t.key}" ${filter !== 'all' && t.category !== filter ? 'hidden' : ''}>
+      <div class="thumb" style="background-image:url(assets/images/tool-${t.key}.jpg),url(assets/images/tool-${t.key}.svg),${t.bg}"></div>
+      <span class="mono">${t.catLabel}</span>
+      <strong>${t.name}</strong>
+      <small>${t.short}</small>
+    </button>
+  `).join('');
 }
-modal.addEventListener('click', e => { if (e.target === modal || e.target.matches('.close')) modal.close(); });
-document.getElementById('inquiry').addEventListener('submit', e => { e.preventDefault(); e.target.querySelector('output').textContent = 'Thank you. Your inquiry form is ready to connect to the backend.'; });
+renderGrid();
+
+document.querySelectorAll('.filters button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filters button').forEach(b => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+    renderGrid(btn.dataset.filter);
+  });
+});
+
+grid.addEventListener('click', e => {
+  const card = e.target.closest('.card');
+  if (!card) return;
+  const t = TOOLS.find(x => x.key === card.dataset.key);
+  if (!t) return;
+  body.innerHTML = `
+    <span class="mono">${t.catLabel}</span>
+    <h3>${t.name}</h3>
+    <p class="lead">${t.purpose}</p>
+    <h5>Core Functions</h5><p>${t.functions}</p>
+    <h5>How It Helps Doctors & Patients</h5><p>${t.helps}</p>
+    <div class="mg">
+      <div class="pro"><h5>Advantages</h5><p>${t.pros}</p></div>
+      <div class="con"><h5>Limitations</h5><p>${t.cons}</p></div>
+    </div>
+    <div class="note"><strong>AI Technology Used:</strong> ${t.tech}</div>
+    <a class="btn" href="${t.url}" target="_blank" rel="noopener noreferrer">Visit Official Site →</a>
+  `;
+  modal.showModal();
+});
+
+modal.querySelector('.close').onclick = () => modal.close();
+modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+
+document.getElementById('inquiry')?.addEventListener('submit', e => {
+  e.preventDefault();
+  e.target.querySelector('output').textContent = 'Thank you! Your feedback has been recorded for our CC 100 R&D team.';
+  e.target.reset();
+});

@@ -7,89 +7,117 @@
 <link rel="stylesheet" href="css/style.css">
 </head><body>
 <nav><a class="brand" href="#home"><svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#FF4A1C"/></svg>LAMBING</a>
-<div class="links"><a href="#about">The Initiative</a><a href="#ai-tools">AI Systems</a><a href="#guides">Care Guides</a><a href="#contact">Clinic Desk</a><a class="btn" href="#ai-hub">AI Health Hub</a></div></nav>
+<div class="links"><a href="#about">The Initiative</a><a href="#ai-tools">AI Systems</a><a href="#guides">AI Literacy</a><a href="#contact">R&D Desk</a><a class="btn" href="#ai-hub">AI Health Hub</a></div></nav>
 <main>
 <section class="hero" id="home">
 <svg class="ecg-wrap" viewBox="0 0 1000 160" preserveAspectRatio="none" aria-hidden="true"><path class="ecg" fill="none" stroke="#fff" stroke-width="2.5" d="M0 80H300L335 80L360 24L395 140L425 52L450 80H640L670 80L695 36L725 122L750 80H1000"/></svg>
-<div class="hero-copy"><h1>Nurturing guidance<br>for modern health.</h1>
-<p>Simple health tips for students, and a clear look at the medical AI that helps doctors, not replaces them.</p>
-<a class="glass" href="#ai-tools">Explore AI Systems →</a></div>
-<p class="notice"><b>Non-diagnostic notice:</b> LAMBING gives general health literacy only. It does not replace professional medical advice.</p></section>
+<div class="hero-copy"><h1>Clear guidance on AI<br>in modern healthcare.</h1>
+<p>A plain-language look at 10 real-world AI systems helping doctors spot urgent conditions sooner, detect disease earlier, and focus more on patients.</p>
+<a class="glass" href="#ai-tools">Explore the 10 AI Systems →</a></div>
+<p class="notice"><b>Educational notice:</b> LAMBING explains real clinical AI tools for learning only. It does not provide medical advice or diagnoses.</p></section>
 
-<section class="black" id="about"><div class="ring-box"><svg id="ring" viewBox="-200 -200 400 400" aria-hidden="true"></svg>
-<div class="ring-c"><span class="mono">The Initiative</span><h2>Less waiting at the clinic.<br>More understanding for every student.</h2></div></div>
-<div class="wrap narrow"><p>Students line up at the clinic for routine questions, and good health advice is hard to find.</p><p>LAMBING gives quick answers and shows how medical AI helps doctors spot urgent problems sooner and do less paperwork.</p><p><b style="color:#fff">AI assists. Doctors still decide.</b></p>
-<div class="metrics"><div><b>10</b>Clinical AI platforms</div><div><b>04</b>Campus care pillars</div><div><b>24/7</b>Digital triage info</div></div></div></section>
+<section class="black" id="about">
+  <div class="init-track" id="initTrack">
+    <div class="init-sticky">
+      <canvas id="ring-canvas" aria-hidden="true"></canvas>
+      <div class="ring-box">
+        <svg id="ring" viewBox="-200 -200 400 400" aria-hidden="true"></svg>
+        <div class="ring-c" id="ringCenter">
+          <span class="mono">The Initiative</span>
+          <h2>Behind the technology<br>helping doctors care.</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrap narrow"><p>Artificial intelligence is already helping hospitals identify strokes faster, detect early signs of cancer, and reduce clinical paperwork. However, most explanations online are filled with complex technical terms that are difficult to understand.</p><p>LAMBING explains 10 verified healthcare AI tools in clear, everyday language so students and patients can easily learn what each tool does, how it supports medical care, and what its limitations are.</p><p><b style="color:#fff">AI assists. Doctors still decide.</b></p>
+  <div class="metrics"><div><b>10</b>Verified clinical AI tools</div><div><b>04</b>Healthcare domains</div><div><b>100%</b>Physician-led decisions</div></div></div>
+</section>
 
-<section class="wrap show"><h2>The most complete picture of campus health you’ve had</h2>
+<section class="wrap show"><h2>A clearer picture of how AI supports modern care</h2>
 <div class="tablet" id="tablet"><div id="panel" class="screen"></div></div>
 <div class="pills" role="tablist" aria-label="Portal views"></div>
-<p class="sub">Clearance steps, health guidance and medical AI explained in one place, always with a licensed doctor in charge.</p></section>
+<p class="sub">From emergency imaging and heart monitoring to early screening and clinical notes, always backed by a licensed physician.</p></section>
 
 <section class="how" id="how"><div class="wrap"><i class="vl tall"></i>
-<p class="mono lab">How it works</p><h2 class="c" style="max-width:15ch">Four simple steps from question to care</h2><i class="vl"></i>
-<article class="step"><h3>Check what you need</h3><p class="sub">Clearance papers, fever rules, eye strain tips and first aid.</p>
+<p class="mono lab">How clinical AI works</p><h2 class="c" style="max-width:15ch">Four simple steps from exam to care</h2><i class="vl"></i>
+<article class="step"><h3>Capture scans, sounds, or speech</h3><p class="sub">X-rays, CT scans, heart ultrasounds, stethoscope audio, or consultation conversations.</p>
 <div class="stage"><span class="badge">1</span><i class="dash"></i><div class="scr" data-s="1"></div><i class="dash"></i><span class="badge">1</span></div>
-<p class="cap">Get the checklist so you know exactly what to bring.</p><i class="vl"></i></article>
-<article class="step"><h3>Explore 10 medical AI tools</h3><p class="sub">See what each tool does, how it helps and where it falls short.</p>
+<p class="cap">Medical devices gather the clinical data first.</p><i class="vl"></i></article>
+<article class="step"><h3>AI analyzes patterns & flags findings</h3><p class="sub">Specialized models highlight urgent abnormalities, early disease signs, or structured notes.</p>
 <div class="stage"><span class="badge">2</span><i class="dash"></i><div class="scr" data-s="2"></div><i class="dash"></i><span class="badge">2</span></div>
-<p class="cap">Tap any tool to see its limits too.</p><i class="vl"></i></article>
-<article class="step"><h3>A doctor checks every result</h3><p class="sub">AI flags. Licensed physicians review and confirm before anything reaches a patient.</p>
+<p class="cap">Tap any of the 10 systems below to see what it detects.</p><i class="vl"></i></article>
+<article class="step"><h3>A licensed doctor reviews every result</h3><p class="sub">AI acts as a second pair of eyes. Physicians verify findings alongside other medical tests.</p>
 <div class="stage"><span class="badge">3</span><i class="dash"></i><div class="scr" data-s="3"></div><i class="dash"></i><span class="badge">3</span></div>
-<p class="cap">AI never makes the final call.</p><i class="vl"></i></article>
-<article class="step"><h3>Visit the clinic desk</h3><p class="sub">Walk in or call the campus clinic when you need real care.</p>
+<p class="cap">AI never makes a diagnosis on its own.</p><i class="vl"></i></article>
+<article class="step"><h3>Faster, more focused patient care</h3><p class="sub">Urgent cases get treated sooner, specialists prioritize high-risk referrals, and doctors spend less time typing.</p>
 <div class="stage"><span class="badge">4</span><i class="dash"></i><div class="scr" data-s="4"></div><i class="dash"></i><span class="badge">4</span></div>
-<p class="cap">Ask a question through the student inquiry form.</p><i class="vl"></i></article>
+<p class="cap">Technology handles the heavy screening so clinicians focus on people.</p><i class="vl"></i></article>
 </div></section>
 
 <section class="adv" id="advantages"><div class="wrap"><h2 class="c" style="max-width:16ch">How AI helps doctors care for patients</h2>
-<p class="sub">AI here means software that learns patterns from medical images, sounds and speech, then points out what a doctor should look at first. These are five advantages, each with real tools you can explore below.</p>
-<div class="adv-list"><article class="ar"><img class="pic" src="assets/images/adv-urgent.svg" alt="A scan with an urgent finding highlighted in orange" loading="lazy"><div><h3>Urgent cases are found sooner</h3><p>AI checks scans for emergencies like stroke or a brain aneurysm and alerts the care team, so those patients are seen first.</p><p class="ex">Real tools: <a href="#ai-tools">Aidoc, Gleamer</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-early.svg" alt="Magnified cells with one suspicious area marked" loading="lazy"><div><h3>Disease signs are caught earlier</h3><p>AI helps spot early signs of cancer and heart problems on X-rays, mammograms, heart ultrasounds and biopsy slides, and makes slide reviews more consistent.</p><p class="ex">Real tools: <a href="#ai-tools">Lunit, Ultromics EchoGo, Ibex</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-paperwork.svg" alt="A sound wave turning into lines of text on a note" loading="lazy"><div><h3>Less paperwork, more listening</h3><p>AI turns the doctor-patient conversation into organized notes, so doctors can look at the patient instead of the keyboard.</p><p class="ex">Real tools: <a href="#ai-tools">Abridge</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-wait.svg" alt="A close-up of an eye with a marked center" loading="lazy"><div><h3>Shorter waits for checks</h3><p>Some tools screen eyes and skin spots right at the clinic and send the riskiest cases to specialists first.</p><p class="ex">Real tools: <a href="#ai-tools">Digital Diagnostics LumineticsCore, Skin Analytics DERM</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-checkup.svg" alt="A heartbeat line with one beat highlighted" loading="lazy"><div><h3>Routine check-ups tell more</h3><p>A digital stethoscope and 3D heart models give doctors extra information during routine exams and from scans they already have.</p><p class="ex">Real tools: <a href="#ai-tools">Eko SENSORA, Heartflow</a></p></div></article></div>
-<div class="limits"><h3>Keep in mind</h3><ul><li>AI can make mistakes, such as false alarms or missed signs.</li><li>A licensed doctor must always review and confirm the results.</li><li>Tools need compatible equipment and good-quality images.</li><li>Patient data must stay private and secure.</li><li>Setup and upkeep can be costly.</li></ul></div></div></section>
+<p class="sub">AI here means software trained on medical images, heart signals, and clinical speech to point out what a doctor should look at first. These five real-world benefits come directly from our 10 researched systems.</p>
+<div class="adv-list"><article class="ar"><img class="pic" src="assets/images/adv-urgent.svg" alt="A scan with an urgent finding highlighted in orange" loading="lazy"><div><h3>Urgent cases are found sooner</h3><p>AI checks scans for emergencies like stroke, brain aneurysms, and fractures and alerts care teams right away so critical patients are seen first.</p><p class="ex">Researched tools: <a href="#ai-tools">Aidoc, Gleamer</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-early.svg" alt="Magnified cells with one suspicious area marked" loading="lazy"><div><h3>Disease signs are caught earlier</h3><p>AI helps spot early signs of cancer and heart failure across chest X-rays, mammograms, heart ultrasounds, and biopsy slides.</p><p class="ex">Researched tools: <a href="#ai-tools">Lunit, Ultromics EchoGo, Ibex</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-paperwork.svg" alt="A sound wave turning into lines of text on a note" loading="lazy"><div><h3>Less paperwork, more listening</h3><p>Speech recognition and language models turn doctor-patient conversations into organized medical notes so doctors can focus on the patient instead of the screen.</p><p class="ex">Researched tools: <a href="#ai-tools">Abridge</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-wait.svg" alt="A close-up of an eye with a marked center" loading="lazy"><div><h3>Shorter waits for specialist checks</h3><p>Point-of-care screening tools evaluate diabetic eye scans and suspicious skin spots during routine visits to prioritize urgent specialist referrals.</p><p class="ex">Researched tools: <a href="#ai-tools">Digital Diagnostics LumineticsCore, Skin Analytics DERM</a></p></div></article><article class="ar"><img class="pic" src="assets/images/adv-checkup.svg" alt="A heartbeat line with one beat highlighted" loading="lazy"><div><h3>Routine check-ups tell more</h3><p>Digital stethoscopes and 3D coronary models uncover irregular heart rhythms, murmurs, and artery blockages from routine exams and existing CT scans.</p><p class="ex">Researched tools: <a href="#ai-tools">Eko SENSORA, Heartflow</a></p></div></article></div>
+<div class="limits"><h3>Shared limitations across all 10 tools</h3><ul><li>AI can produce false positives or miss subtle abnormalities.</li><li>A licensed doctor or specialist must always review and confirm results.</li><li>Tools require compatible hospital hardware and clear image quality.</li><li>Patient medical data must remain strictly private and secure.</li><li>Setup, maintenance, and regional availability can be limited.</li></ul></div></div></section>
 
 <section class="fly" id="ai-hub"><div class="stick">
-<div class="fc c1"><span class="mono">Medical imaging</span><b>3 systems</b></div><div class="fc c2"><span class="mono">Heart &amp; vitals</span><b>3 systems</b></div>
+<div class="fc c1"><span class="mono">Medical imaging</span><b>3 systems</b></div><div class="fc c2"><span class="mono">Heart & vitals</span><b>3 systems</b></div>
 <div class="fc c3"><span class="mono">Early screening</span><b>3 systems</b></div><div class="fc c4"><span class="mono">Clinical assistant</span><b>1 system</b></div>
-<div class="fly-t"><h2>AI Health Hub</h2><p>Ask questions and explore ten medical AI systems in one place.</p></div></div></section>
+<div class="fly-t"><h2>AI Health Hub</h2><p>Compare all ten researched medical AI systems across four clinical domains.</p></div></div></section>
 
-<section class="wrap" style="padding-top:0"><p class="root-label mono">LAMBING AI Companion — Interactive Module (Backend Ready)</p>
-<div id="chatbot-root"></div></section>
+<section class="wrap" style="padding-top:0"><p class="root-label mono">LAMBING R&D Companion — Interactive Q&A Module (Backend Ready)</p>
+<div id="chatbot-root">
+  <div class="bot-preview">
+    <div class="bot-msg">
+      <strong>LAMBING Medical AI Assistant</strong><br>
+      Ask how any of the 10 clinical AI tools work, what technologies they use, or what their advantages and limitations are. <em>Educational literacy only — not a medical diagnosis.</em>
+    </div>
+    <div class="bot-chips">
+      <span>“How does Heartflow build a 3D model of heart arteries?”</span>
+      <span>“What is the difference between Aidoc and Gleamer?”</span>
+      <span>“Why can’t medical AI replace a doctor?”</span>
+    </div>
+    <div class="bot-bar">
+      <span>Ask a question about our 10 researched healthcare AI tools…</span>
+      <b>Backend Ready</b>
+    </div>
+  </div>
+</div></section>
 
-<div class="marq-box" aria-hidden="true"><div class="marq mono"><span>Medical imaging</span><span class="o">Heart &amp; vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span><span>Medical imaging</span><span class="o">Heart &amp; vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span></div></div>
+<div class="marq-box" aria-hidden="true"><div class="marq mono"><span>Medical imaging</span><span class="o">Heart & vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span><span>Medical imaging</span><span class="o">Heart & vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span></div></div>
 
 <section class="wrap" id="ai-tools"><h2 class="c">10 medical AI tools, explained simply</h2>
-<p class="sub" style="text-align:center">Tap a tool to see what it does, how it helps and its limits. A doctor always makes the final decision.</p>
+<p class="sub" style="text-align:center">Tap any system from our R&D database to view its purpose, core functions, advantages, limitations, and AI technology. A doctor always makes the final decision.</p>
 <div class="filters" role="group" aria-label="Filter AI systems">
 <button data-filter="all" aria-pressed="true">All Systems (10)</button><button data-filter="imaging" aria-pressed="false">Medical Imaging</button>
-<button data-filter="heart" aria-pressed="false">Heart &amp; Vitals</button><button data-filter="screening" aria-pressed="false">Early Screening</button>
+<button data-filter="heart" aria-pressed="false">Heart & Vitals</button><button data-filter="screening" aria-pressed="false">Early Screening</button>
 <button data-filter="workflow" aria-pressed="false">Clinical Assistant</button></div>
 <div class="grid" id="tool-grid"></div></section>
 
-<section class="wrap" id="guides"><h2 class="c">Campus care guides</h2>
-<div class="slider-wrap"><button class="arr" id="prev" aria-label="Previous guide">←</button>
+<section class="wrap" id="guides"><h2 class="c">What to know about medical AI</h2>
+<div class="slider-wrap"><button class="arr" id="prev" aria-label="Previous takeaway">←</button>
 <div class="slider" id="slider" tabindex="0">
-<article><span class="mono">01</span><h3>Medical &amp; dental clearance</h3><p>Bring these before your enrollment or OJT deadline: Student ID, health record form, chest X-ray and CBC results.</p></article>
-<article><span class="mono">02</span><h3>Fever, colds &amp; viral fatigue</h3><p>Rest and drink fluids. Go to the campus nurse right away if your fever is above 38°C or lasts more than 48 hours.</p></article>
-<article><span class="mono">03</span><h3>Academic burnout &amp; eye strain</h3><p>Every 20 minutes, look at something far away for 20 seconds (the 20-20-20 rule). Sleep at regular hours and visit guidance counseling.</p></article>
-<article><span class="mono">04</span><h3>First aid &amp; minor injuries</h3><p>Rinse small scrapes with clean running water. Then visit the Campus Health Services Office for free antiseptic and sterile dressing (clean bandage).</p></article>
-</div><button class="arr" id="next" aria-label="Next guide">→</button></div></section>
+<article><span class="mono">01</span><h3>A second pair of eyes, not a doctor</h3><p>Across all 10 platforms we researched, AI flags possible findings, and a licensed physician or specialist must always review and confirm every result.</p></article>
+<article><span class="mono">02</span><h3>False alarms and missed signs happen</h3><p>Medical AI can generate false positives or overlook rare conditions. Doctors always combine AI outputs with physical exams and other clinical tests.</p></article>
+<article><span class="mono">03</span><h3>Scan quality and hardware matter</h3><p>Tools like Heartflow, EchoGo, and Ibex depend on clear medical images, digital biopsy scanners, and compatible hospital systems to work accurately.</p></article>
+<article><span class="mono">04</span><h3>Patient eligibility and data privacy</h3><p>Some tools serve specific groups, like LumineticsCore for adults 22+ with diabetes, while conversational tools like Abridge require strict patient privacy safeguards.</p></article>
+</div><button class="arr" id="next" aria-label="Next takeaway">→</button></div></section>
 
 <section class="black glow" id="process"><div class="wrap" style="text-align:center"><h2 style="max-width:14ch;margin:0 auto">Responsible AI, human doctors</h2>
 <svg viewBox="0 0 800 400" class="curve-svg" role="img" aria-label="Three governance pillars along a rising line">
 <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff4a1c"/><stop offset="1" stop-color="#ffd08a"/></linearGradient></defs>
 <path id="curve" d="M20 340C220 340 240 90 420 150S660 300 780 50" fill="none" stroke="url(#g)" stroke-width="3"/>
 <g fill="#fff"><circle cx="20" cy="340" r="5" fill="#ff4a1c"/><text x="34" y="322" font-weight="600">Clinical speed</text><text x="34" y="344" font-size="12" fill="#aaa">Earlier detection and triage of urgent cases</text>
-<circle cx="420" cy="150" r="5"/><text x="436" y="136" font-weight="600">Human connection</text><text x="436" y="158" font-size="12" fill="#aaa">Less paperwork, more time at the bedside</text>
+<circle cx="420" cy="150" r="5"/><text x="436" y="136" font-weight="600">Human connection</text><text x="436" y="158" font-size="12" fill="#aaa">Less paperwork, more time listening to patients</text>
 <circle cx="780" cy="50" r="5" fill="#ffd08a"/><g text-anchor="end"><text x="766" y="28" font-weight="600">Mandatory physician verification</text><text x="766" y="48" font-size="12" fill="#aaa">Licensed doctors always review and confirm AI results</text></g></g></svg></div></section>
 
-<section class="wrap" id="contact"><h2 class="c">Campus clinic desk</h2>
-<div class="contact"><ul class="desk"><li><span>Operating hours</span><b>Monday – Friday, 8:00 AM – 5:00 PM</b></li><li><span>Location</span><b>Ground Floor, Student Wellness Building</b></li><li><span>Emergency line</span><b>(043) 425-0139 · Campus Health Services</b></li></ul>
+<section class="wrap" id="contact"><h2 class="c">Project & R&D desk</h2>
+<div class="contact"><ul class="desk"><li><span>Course & Track</span><b>CC 100 · Category 9: AI-Powered Healthcare Systems</b></li><li><span>Developers</span><b>1st-Year BS Computer Science · BatStateU – Alangilan</b></li><li><span>Research Scope</span><b>10 Verified Clinical AI Platforms · Official Documentation</b></li></ul>
 <form id="inquiry"><label for="n">Full name</label><input id="n" required>
-<label for="e">Student email</label><input id="e" type="email" placeholder="26-00001@g.batstate-u.edu.ph" required>
-<label for="m">Inquiry or concern</label><textarea id="m" rows="4" required></textarea>
-<button class="btn" type="submit">Send inquiry</button><output aria-live="polite"></output></form></div></section>
+<label for="e">Email address</label><input id="e" type="email" placeholder="26-00001@g.batstate-u.edu.ph" required>
+<label for="m">Question about our medical AI research</label><textarea id="m" rows="4" required></textarea>
+<button class="btn" type="submit">Send feedback</button><output aria-live="polite"></output></form></div></section>
 </main>
-<footer><p class="big" aria-hidden="true">lambing</p><p>LAMBING · CC 100 Final Project · General health literacy only. It does not replace professional medical advice.</p></footer>
+<footer><p class="big" aria-hidden="true">lambing</p><p>LAMBING · CC 100 Final Project · Educational medical AI literacy only. It does not replace professional medical advice.</p></footer>
 <dialog id="tool-modal" aria-label="AI system details"><button class="close" aria-label="Close">×</button><div class="body"></div></dialog>
 <script src="js/tools-data.js"></script><script src="js/main.js"></script>
 </body></html>
