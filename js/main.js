@@ -1,9 +1,12 @@
 const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ring = document.getElementById('ring');
 const ringCenter = document.getElementById('ringCenter');
-const initTrack = document.getElementById('initTrack');
+const heroStage = document.getElementById('heroStage');
+const heroEl = document.getElementById('home');
+const heroCopy = heroEl ? heroEl.querySelector('.hero-copy') : null;
+const blackVeil = document.getElementById('blackVeil');
 const ringCanvas = document.getElementById('ring-canvas');
-const rCtx = ringCanvas ? ringCanvas.getContext('2d', { alpha: false }) : null;
+const rCtx = ringCanvas ? ringCanvas.getContext('2d', { alpha: true }) : null;
 
 const cols = ['#ff4a1c','#ffd08a','#2fe0b0','#a78bfa','#ffffff'];
 const streakCols = ['#2fe0b0','#ffd08a','#e879f9','#ff6a1a','#67e8f9','#fde047'];
@@ -14,7 +17,7 @@ const hash = n => {
   return s - Math.floor(s);
 };
 
-// Pre-render soft bokeh sprites offscreen once (eliminates per-frame radial gradients & shadowBlur lag)
+// Pre-render soft bokeh sprites offscreen once
 const BOKEH_SPRITES = streakCols.map(color => {
   const off = document.createElement('canvas');
   off.width = off.height = 64;
@@ -35,20 +38,24 @@ const RING_TICKS = Array.from({ length: 120 }, (_, i) => ({
   color: cols[i % 5]
 }));
 
-// Randomized streaks matching the 0:03 -> 0:04.5 tunnel sequence in the reference
-const TUNNEL_STREAKS = Array.from({ length: 150 }, (_, i) => ({
-  angle: hash(i * 1.37 + 2) * Math.PI * 2,
-  offset: hash(i * 2.13 + 7),
-  speed: 0.7 + hash(i * 3.17 + 11) * 0.85,
-  width: 2.2 + hash(i * 4.91 + 19) * 5.5,
-  lenScale: 0.55 + hash(i * 5.71 + 23) * 0.85,
-  colorIdx: Math.floor(hash(i * 6.83 + 31) * streakCols.length)
-}));
+// Group streaks by color index for batched canvas drawing (12 draw calls instead of 300)
+const STREAKS_BY_COLOR = streakCols.map(() => []);
+for (let i = 0; i < 144; i++) {
+  const colorIdx = Math.floor(hash(i * 6.83 + 31) * streakCols.length);
+  STREAKS_BY_COLOR[colorIdx].push({
+    cos: Math.cos(hash(i * 1.37 + 2) * Math.PI * 2),
+    sin: Math.sin(hash(i * 1.37 + 2) * Math.PI * 2),
+    offset: hash(i * 2.13 + 7),
+    speed: 0.7 + hash(i * 3.17 + 11) * 0.85,
+    lenScale: 0.55 + hash(i * 5.71 + 23) * 0.85
+  });
+}
 
-const BOKEH_ORBS = Array.from({ length: 28 }, (_, i) => ({
-  angle: hash(i * 1.91 + 41) * Math.PI * 2,
+const BOKEH_ORBS = Array.from({ length: 26 }, (_, i) => ({
+  cos: Math.cos(hash(i * 1.91 + 41) * Math.PI * 2),
+  sin: Math.sin(hash(i * 1.91 + 41) * Math.PI * 2),
   offset: hash(i * 2.71 + 53),
-  size: 24 + hash(i * 3.89 + 67) * 58,
+  size: 32 + hash(i * 3.89 + 67) * 68,
   colorIdx: Math.floor(hash(i * 4.61 + 79) * streakCols.length)
 }));
 
@@ -567,17 +574,24 @@ document.addEventListener('click', e => {
 new IntersectionObserver(e => { seen = e[0].isIntersecting; }, {threshold: .5}).observe(document.getElementById('tablet'));
 setInterval(() => { if (auto && seen) { idx = (idx + 1) % tabs.length; showView(tabs[idx][0]); } }, 4200);
 
-// Native smooth anchor links (no laggy wheel hijacking)
+// Smooth anchor links (lands directly on the revealed ring for #about)
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    if (href === '#about' && heroStage && !still) {
+      e.preventDefault();
+      const targetY = heroStage.offsetTop + heroStage.offsetHeight - innerHeight;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+      return;
+    }
+    const target = document.querySelector(href);
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView({ behavior: still ? 'auto' : 'smooth' });
   });
 });
 
-// Fast, zero-shadowBlur scroll renderer matching 0:03 -> 0:05 of reference
+// Fast scroll renderer: Hero Overlay (0 -> 0.35) -> Warp Tunnel (0.30 -> 0.75) -> Initiative Ring (0.70 -> 1.0)
 const fly = document.querySelector('.fly'), rg = document.getElementById('rg');
 const clamp01 = v => Math.min(1, Math.max(0, v));
 const smoothstep = v => { const x = clamp01(v); return x * x * (3 - 2 * x); };
@@ -598,118 +612,125 @@ addEventListener('scroll', () => { dirty = true; }, { passive: true });
 
 function renderRingSequence(p) {
   if (!rCtx || !cw || !ch) return;
+
+  // 1. Hero zoom & fade into black (0.0 -> 0.36)
+  const heroZoom = smoothstep(p / 0.38);
+  const copyFade = 1 - smoothstep(p / 0.22);
+  const veilAlpha = smoothstep((p - 0.16) / 0.22);
+
+  if (heroEl) {
+    heroEl.style.transform = `scale(${(1 + heroZoom * 0.22).toFixed(4)})`;
+    heroEl.style.opacity = (1 - veilAlpha).toFixed(3);
+  }
+  if (heroCopy) {
+    heroCopy.style.opacity = copyFade.toFixed(3);
+    heroCopy.style.transform = `translate3d(0, ${(-heroZoom * 28).toFixed(1)}px, 0)`;
+  }
+  if (blackVeil) {
+    blackVeil.style.opacity = veilAlpha.toFixed(3);
+  }
+
+  // Clear transparent canvas so p=0 shows pure hero with zero overhead
   rCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  rCtx.fillStyle = '#0a0a0a';
-  rCtx.fillRect(0, 0, cw, ch);
+  rCtx.clearRect(0, 0, cw, ch);
+
+  if (p <= 0.002) {
+    ring.style.opacity = '0';
+    ringCenter.style.opacity = '0';
+    return;
+  }
 
   const cx = cw * 0.5;
   const cy = ch * 0.5;
   const maxR = Math.hypot(cx, cy) * 1.15;
   const ringRadius = (Math.min(560, cw * 0.88) / 400) * 150;
 
-  // Phase A (0 -> 0.42): bokeh + randomized glowing streaks burst in (video 0:03 -> 0:03.5)
-  // Phase B (0.42 -> 0.82): streaks expand outward clearing the dark center & lose glow (video 0:04)
-  // Phase C (0.72 -> 1.0): crisp non-glowing 120-tick ring + center headline lock in (video 0:04.5 -> 0:05)
-  const streakAlpha = smoothstep(p / 0.16) * (1 - smoothstep((p - 0.58) / 0.24));
-  const innerClear = smoothstep((p - 0.34) / 0.44);
-  const innerHoleR = 16 + innerClear * (ringRadius * 1.65);
-
-  if (streakAlpha > 0.005) {
-    // 1. Bokeh phase at the start of the tunnel (0:03.0)
-    const bokehFade = (1 - smoothstep((p - 0.22) / 0.28)) * streakAlpha;
-    if (bokehFade > 0.01) {
-      rCtx.globalCompositeOperation = 'lighter';
-      for (let i = 0; i < BOKEH_ORBS.length; i++) {
-        const b = BOKEH_ORBS[i];
-        const t = (b.offset + p * 1.3) % 1;
-        const dist = 24 + t * maxR * 0.85;
-        const sz = b.size * (0.4 + t * 1.1);
-        rCtx.globalAlpha = bokehFade * Math.sin(t * Math.PI) * 0.55;
-        rCtx.drawImage(
-          BOKEH_SPRITES[b.colorIdx],
-          cx + Math.cos(b.angle) * dist - sz * 0.5,
-          cy + Math.sin(b.angle) * dist - sz * 0.5,
-          sz,
-          sz
-        );
-      }
+  // 2. Bokeh orbs overlay on hero first (0.02 -> 0.42)
+  const bokehAlpha = smoothstep(p / 0.1) * (1 - smoothstep((p - 0.26) / 0.18));
+  if (bokehAlpha > 0.01) {
+    for (let i = 0; i < BOKEH_ORBS.length; i++) {
+      const b = BOKEH_ORBS[i];
+      const t = (b.offset + p * 1.6) % 1;
+      const dist = 28 + t * maxR * 0.9;
+      const sz = b.size * (0.45 + t * 1.15);
+      rCtx.globalAlpha = bokehAlpha * Math.sin(t * Math.PI) * 0.65;
+      rCtx.drawImage(
+        BOKEH_SPRITES[b.colorIdx],
+        cx + b.cos * dist - sz * 0.5,
+        cy + b.sin * dist - sz * 0.5,
+        sz,
+        sz
+      );
     }
-
-    // 2. Randomized light streaks (layered soft outer glow + bright core, zero shadowBlur)
-    rCtx.globalCompositeOperation = 'lighter';
-    rCtx.lineCap = 'round';
-    const travel = p * 2.1;
-
-    for (let i = 0; i < TUNNEL_STREAKS.length; i++) {
-      const s = TUNNEL_STREAKS[i];
-      const prog = (s.offset + travel * s.speed) % 1;
-      const rStart = Math.max(innerHoleR, 18 + prog * maxR * 0.72);
-      const len = maxR * 0.36 * s.lenScale * (0.35 + prog * 1.1);
-      const rEnd = rStart + len;
-      if (rStart >= maxR) continue;
-
-      const cos = Math.cos(s.angle);
-      const sin = Math.sin(s.angle);
-      const x1 = cx + cos * rStart;
-      const y1 = cy + sin * rStart;
-      const x2 = cx + cos * rEnd;
-      const y2 = cy + sin * rEnd;
-      const w = s.width * (0.45 + prog * 0.85);
-      const col = streakCols[s.colorIdx];
-
-      // Fast fake glow pass (wide translucent stroke)
-      rCtx.strokeStyle = col;
-      rCtx.globalAlpha = streakAlpha * 0.22 * (1 - innerClear * 0.7);
-      rCtx.lineWidth = w * 3.1;
-      rCtx.beginPath();
-      rCtx.moveTo(x1, y1);
-      rCtx.lineTo(x2, y2);
-      rCtx.stroke();
-
-      // Crisp inner streak core
-      rCtx.globalAlpha = streakAlpha * 0.85;
-      rCtx.lineWidth = w;
-      rCtx.beginPath();
-      rCtx.moveTo(x1, y1);
-      rCtx.lineTo(x2, y2);
-      rCtx.stroke();
-    }
-
-    rCtx.globalCompositeOperation = 'source-over';
-    rCtx.globalAlpha = 1;
   }
 
-  // Final non-glowing ring & center copy
-  const ringReveal = smoothstep((p - 0.62) / 0.24);
-  const textReveal = smoothstep((p - 0.72) / 0.22);
+  // 3. Radial warp streaks start subtly over hero (p=0.06), peak in tunnel (p=0.45), clear out (p=0.82)
+  const streakAlpha = smoothstep((p - 0.05) / 0.18) * (1 - smoothstep((p - 0.62) / 0.22));
+  const innerClear = smoothstep((p - 0.44) / 0.36);
+  const innerHoleR = 14 + innerClear * (ringRadius * 1.7);
+
+  if (streakAlpha > 0.005) {
+    rCtx.lineCap = 'round';
+    const travel = p * 2.4;
+
+    for (let c = 0; c < streakCols.length; c++) {
+      const group = STREAKS_BY_COLOR[c];
+      rCtx.strokeStyle = streakCols[c];
+
+      // Batched soft outer glow pass
+      rCtx.globalAlpha = streakAlpha * 0.2 * (1 - innerClear * 0.7);
+      rCtx.lineWidth = 11;
+      rCtx.beginPath();
+      for (let i = 0; i < group.length; i++) {
+        const s = group[i];
+        const prog = (s.offset + travel * s.speed) % 1;
+        const rStart = Math.max(innerHoleR, 16 + prog * maxR * 0.72);
+        if (rStart >= maxR) continue;
+        const rEnd = rStart + maxR * 0.38 * s.lenScale * (0.35 + prog * 1.1);
+        rCtx.moveTo(cx + s.cos * rStart, cy + s.sin * rStart);
+        rCtx.lineTo(cx + s.cos * rEnd, cy + s.sin * rEnd);
+      }
+      rCtx.stroke();
+
+      // Batched bright inner core pass
+      rCtx.globalAlpha = streakAlpha * 0.88;
+      rCtx.lineWidth = 3.4;
+      rCtx.stroke();
+    }
+  }
+  rCtx.globalAlpha = 1;
+
+  // 4. Crisp non-glowing Initiative ring & headline lock in (0.68 -> 1.0)
+  const ringReveal = smoothstep((p - 0.66) / 0.22);
+  const textReveal = smoothstep((p - 0.75) / 0.2);
   ring.style.opacity = ringReveal.toFixed(3);
   ring.style.transform = `scale(${(0.86 + 0.14 * ringReveal).toFixed(4)})`;
   ringCenter.style.opacity = textReveal.toFixed(3);
   ringCenter.style.transform = `scale(${(0.92 + 0.08 * textReveal).toFixed(4)})`;
 }
 
+function getHeroGoal() {
+  if (!heroStage) return 0;
+  const r = heroStage.getBoundingClientRect();
+  return clamp01(-r.top / Math.max(1, r.height - innerHeight));
+}
+
 function frame() {
   if (!still && dirty) {
     rg.setAttribute('transform', `rotate(${scrollY * 0.12})`);
 
-    if (initTrack) {
-      const ir = initTrack.getBoundingClientRect();
-      const startTop = innerHeight * 0.75;
-      const total = startTop + (ir.height - innerHeight);
-      const goal = clamp01((startTop - ir.top) / Math.max(1, total));
-      warpP += (goal - warpP) * 0.22;
-      renderRingSequence(warpP);
-      if (Math.abs(goal - warpP) < 0.001) warpP = goal;
-    }
+    const goal = getHeroGoal();
+    warpP += (goal - warpP) * 0.24;
+    if (Math.abs(goal - warpP) < 0.0008) warpP = goal;
+    renderRingSequence(warpP);
 
     const box = fly.getBoundingClientRect();
     const goalFly = clamp01(-box.top / (box.height - innerHeight) * 1.85);
     flyP += (goalFly - flyP) * 0.22;
+    if (Math.abs(goalFly - flyP) < 0.0008) flyP = goalFly;
     fly.style.setProperty('--p', flyP.toFixed(4));
 
-    if (initTrack && Math.abs(warpP - clamp01((innerHeight * 0.75 - initTrack.getBoundingClientRect().top) / Math.max(1, innerHeight * 0.75 + initTrack.offsetHeight - innerHeight))) < 0.002) {
-      dirty = false;
-    }
+    if (warpP === goal && flyP === goalFly) dirty = false;
   }
   requestAnimationFrame(frame);
 }
