@@ -84,6 +84,51 @@ const SYSTEM_CARDS = [
   { name: 'Ibex', mark: 'IB', desc: 'Assists pathologists in spotting prostate and breast cancer in biopsies.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://ibex-ai.com&size=256' },
   { name: 'Abridge', mark: 'AB', desc: 'Turns doctor-patient conversations into organized clinical notes.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.abridge.com&size=256' }
 ];
+
+// Populate AI Health Hub Collage (Larger Cards, Strict Superpower-Style Scatter)
+const HUB_LAYOUT = [
+  // Top-left large tilted orange card
+  { x: '17%', y: '17%', w: 228, h: 192, rot: '-12deg', dx: '-34vw', dy: '-28vh', spin: '-20deg', theme: 't-orange' },
+  // Upper-left medium light card
+  { x: '35%', y: '24%', w: 132, h: 152, rot: '6deg',   dx: '-14vw', dy: '-34vh', spin: '15deg',  theme: 't-light'  },
+  // Top-center bleeding orange card
+  { x: '50%', y: '6%',  w: 174, h: 210, rot: '-2deg',  dx: '0vw',   dy: '-38vh', spin: '-10deg', theme: 't-orange' },
+  // Top-right wide tilted dark card
+  { x: '82%', y: '18%', w: 276, h: 186, rot: '11deg',  dx: '36vw',  dy: '-30vh', spin: '22deg',  theme: 't-dark'   },
+  // Mid-left vertical dark card
+  { x: '10%', y: '53%', w: 146, h: 188, rot: '5deg',   dx: '-40vw', dy: '2vh',   spin: '-16deg', theme: 't-dark'   },
+  // Mid-right vertical mint card
+  { x: '89%', y: '54%', w: 152, h: 196, rot: '-6deg',  dx: '40vw',  dy: '4vh',   spin: '18deg',  theme: 't-mint'   },
+  // Bottom-left edge-bleeding light card
+  { x: '18%', y: '93%', w: 224, h: 168, rot: '10deg',  dx: '-32vw', dy: '34vh',  spin: '20deg',  theme: 't-light'  },
+  // Bottom-center-left compact light card
+  { x: '41%', y: '88%', w: 134, h: 142, rot: '-7deg',  dx: '-8vw',  dy: '36vh',  spin: '-14deg', theme: 't-light'  },
+  // Bottom-center-right medium dark card
+  { x: '64%', y: '87%', w: 128, h: 128, rot: '8deg',   dx: '14vw',  dy: '34vh',  spin: '16deg',  theme: 't-dark'   },
+  // Bottom-right edge-bleeding orange card
+  { x: '82%', y: '92%', w: 208, h: 184, rot: '-11deg', dx: '34vw',  dy: '32vh',  spin: '-22deg', theme: 't-orange' }
+];
+
+const hubField = document.getElementById('hubField');
+if (hubField) {
+  hubField.innerHTML = SYSTEM_CARDS.map((sys, i) => {
+    const pos = HUB_LAYOUT[i];
+    return `
+      <a class="hub-node ${pos.theme}" href="#ai-tools"
+         style="--x:${pos.x};--y:${pos.y};--w:${pos.w}px;--h:${pos.h}px;--rot:${pos.rot};--dx:${pos.dx};--dy:${pos.dy};--spin:${pos.spin}">
+        <div class="hub-card">
+          <div class="hub-logo">
+            <img src="${sys.logo}" alt="${sys.name} logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+            <span>${sys.mark}</span>
+          </div>
+          <p class="hub-desc">${sys.desc}</p>
+        </div>
+        <span class="hub-caption">${sys.name}</span>
+      </a>
+    `;
+  }).join('');
+}
+
 const LITERACY_TOPICS = [
   {
     id: 'oversight',
@@ -571,6 +616,91 @@ document.addEventListener('click', e => {
   main.scrollTop = 0;
 });
 
+// Compact Advantages & Limitations Stage
+const ADV_ITEMS = [
+  {
+    img: 'assets/images/adv-urgent.svg',
+    alt: 'A scan with an urgent finding highlighted in orange',
+    title: 'Urgent cases are found sooner',
+    desc: 'AI checks scans for emergencies like stroke, brain aneurysms, and fractures and alerts care teams right away so critical patients are seen first.',
+    tools: 'Aidoc, Gleamer'
+  },
+  {
+    img: 'assets/images/adv-early.svg',
+    alt: 'Magnified cells with one suspicious area marked',
+    title: 'Disease signs are caught earlier',
+    desc: 'AI helps spot early signs of cancer and heart failure across chest X-rays, mammograms, heart ultrasounds, and biopsy slides.',
+    tools: 'Lunit, Ultromics EchoGo, Ibex'
+  },
+  {
+    img: 'assets/images/adv-paperwork.svg',
+    alt: 'A sound wave turning into lines of text on a note',
+    title: 'Less paperwork, more listening',
+    desc: 'Speech recognition and language models turn doctor-patient conversations into organized medical notes so doctors can focus on the patient instead of the screen.',
+    tools: 'Abridge'
+  },
+  {
+    img: 'assets/images/adv-wait.svg',
+    alt: 'A close-up of an eye with a marked center',
+    title: 'Shorter waits for specialist checks',
+    desc: 'Point-of-care screening tools evaluate diabetic eye scans and suspicious skin spots during routine visits to prioritize urgent specialist referrals.',
+    tools: 'Digital Diagnostics LumineticsCore, Skin Analytics DERM'
+  },
+  {
+    img: 'assets/images/adv-checkup.svg',
+    alt: 'A heartbeat line with one beat highlighted',
+    title: 'Routine check-ups tell more',
+    desc: 'Digital stethoscopes and 3D coronary models uncover irregular heart rhythms, murmurs, and artery blockages from routine exams and existing CT scans.',
+    tools: 'Eko SENSORA, Heartflow'
+  }
+];
+
+document.addEventListener('click', e => {
+  const tab = e.target.closest('.adv-tab');
+  const viewer = document.getElementById('advViewer');
+  if (!tab || !viewer) return;
+
+  document.querySelectorAll('.adv-tab').forEach(t => {
+    t.classList.remove('on');
+    t.setAttribute('aria-selected', 'false');
+  });
+  tab.classList.add('on');
+  tab.setAttribute('aria-selected', 'true');
+
+  const idx = Number(tab.dataset.adv);
+  viewer.style.animation = 'none';
+  void viewer.offsetWidth;
+  viewer.style.animation = '';
+
+  if (idx === 5) {
+    viewer.classList.add('is-limits');
+    viewer.innerHTML = `
+      <div class="adv-body">
+        <span class="mono" style="display:block;margin-bottom:8px">Clinical Safety Boundaries</span>
+        <h3>Shared limitations across all 10 tools</h3>
+        <ul class="adv-lim-list">
+          <li>AI can produce false positives or miss subtle abnormalities.</li>
+          <li>A licensed doctor or specialist must always review and confirm results.</li>
+          <li>Tools require compatible hospital hardware and clear image quality.</li>
+          <li>Patient medical data must remain strictly private and secure.</li>
+          <li>Setup, maintenance, and regional availability can be limited.</li>
+        </ul>
+      </div>
+    `;
+  } else {
+    const item = ADV_ITEMS[idx];
+    viewer.classList.remove('is-limits');
+    viewer.innerHTML = `
+      <img class="adv-pic" src="${item.img}" alt="${item.alt}">
+      <div class="adv-body">
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <p class="ex">Researched tools: <a href="#ai-tools">${item.tools}</a></p>
+      </div>
+    `;
+  }
+});
+
 new IntersectionObserver(e => { seen = e[0].isIntersecting; }, {threshold: .5}).observe(document.getElementById('tablet'));
 setInterval(() => { if (auto && seen) { idx = (idx + 1) % tabs.length; showView(tabs[idx][0]); } }, 4200);
 
@@ -766,17 +896,78 @@ if (!still) {
   sc.addEventListener('pointerleave', () => { tx = 0; ty = 0; tg = 0; kick(); });
 }
 
-// How clinical AI works
-const dots = (n, c) => Array(n).fill(`<i style="background:${c}"></i>`).join('');
-const screen = (legs, segs) => `<div class="legs">${legs.map(([n,c,t]) => `<div class="lg"><span class="dots">${dots(n,c)}</span><small>${t}</small></div>`).join('')}</div><div class="bar">${segs.map(([f,c],i) => `<i style="flex:${f};background:${c};--i:${i}"></i>`).join('')}</div>`;
-const O = '#ff4a1c', Y = '#ffd08a', G = '#2fe0b0', P = '#a78bfa';
+// How clinical AI works (4 Unique Themes: Compact -> Expands on Hover/Tap)
 const steps = {
-  1: screen([[1,O,'CT scans, X-rays & mammograms'],[1,G,'Stethoscope audio & heart ultrasounds'],[1,Y,'Retina, skin & biopsy images'],[1,P,'Doctor-patient consultation speech']], [[1,O],[1,G],[1,Y],[1,P]]),
-  2: screen([[3,CAT.imaging,'Medical imaging · 3'],[3,CAT.heart,'Heart & vitals · 3'],[3,CAT.screening,'Early screening · 3'],[1,CAT.workflow,'Clinical assistant · 1']], order.map(c => [1, CAT[c]])),
-  3: screen([[1,O,'AI flags urgent or subtle findings'],[1,Y,'Doctor reviews alongside clinical tests'],[1,G,'Confirmed diagnosis & care plan']], [[1,O],[1.4,Y],[1,G]]),
-  4: screen([[1,O,'Faster emergency triage'],[1,G,'Earlier specialist referrals'],[1,Y,'More bedside time, less typing']], [[1,O],[1,O],[1,G],[1,G],[1,Y],[1,Y]])
+  1: `
+    <div>
+      <div class="hw-top">
+        <span class="hw-kicker">Step 01 · Clinical Input</span>
+        <span class="hw-cue">Hover to inspect ↗</span>
+      </div>
+      <h4 class="hw-h">Hospital devices capture raw medical data</h4>
+    </div>
+    <div class="hw-detail s1-rows">
+      <div class="s1-row"><i style="background:#ff4a1c"></i><span>CT Scans, X-Rays & Mammograms</span><em>Aidoc · Lunit · Gleamer · Heartflow</em></div>
+      <div class="s1-row"><i style="background:#2fe0b0"></i><span>Stethoscope Audio & Heart Ultrasounds</span><em>Eko SENSORA · Ultromics EchoGo</em></div>
+      <div class="s1-row"><i style="background:#ffd08a"></i><span>Retina, Skin & Biopsy Images</span><em>LumineticsCore · DERM · Ibex</em></div>
+      <div class="s1-row"><i style="background:#a78bfa"></i><span>Doctor–Patient Consultation Speech</span><em>Abridge</em></div>
+    </div>
+  `,
+  2: `
+    <div>
+      <div class="hw-top">
+        <span class="hw-kicker">Step 02 · AI Pattern Scan</span>
+        <span class="hw-cue">Hover to inspect ↗</span>
+      </div>
+      <h4 class="hw-h">10 specialized systems highlight key findings</h4>
+    </div>
+    <div class="hw-detail s2-bars">
+      <div class="s2-bar"><span>Medical Imaging</span><div class="s2-track"><span style="width:90%;background:#ff4a1c"></span></div><b>3 tools</b></div>
+      <div class="s2-bar"><span>Heart & Vitals</span><div class="s2-track"><span style="width:90%;background:#2fe0b0"></span></div><b>3 tools</b></div>
+      <div class="s2-bar"><span>Early Screening</span><div class="s2-track"><span style="width:90%;background:#f59e0b"></span></div><b>3 tools</b></div>
+      <div class="s2-bar"><span>Clinical Notes</span><div class="s2-track"><span style="width:35%;background:#8b5cf6"></span></div><b>1 tool</b></div>
+    </div>
+  `,
+  3: `
+    <div>
+      <div class="hw-top">
+        <span class="hw-kicker">Step 03 · Mandatory MD Gate</span>
+        <span class="hw-cue">Hover to inspect ↗</span>
+      </div>
+      <h4 class="hw-h">A licensed doctor verifies every AI alert</h4>
+    </div>
+    <div class="hw-detail s3-gate">
+      <div class="s3-box">
+        <small>AI Output (Assistive)</small>
+        <p>Flags possible strokes, fractures, lesions, or draft notes—can still make mistakes.</p>
+      </div>
+      <span class="s3-arrow">→</span>
+      <div class="s3-box md">
+        <small>Physician Decision (Final)</small>
+        <p>Doctor checks scans, symptoms & lab tests before confirming any diagnosis.</p>
+      </div>
+    </div>
+  `,
+  4: `
+    <div>
+      <div class="hw-top">
+        <span class="hw-kicker">Step 04 · Patient Outcome</span>
+        <span class="hw-cue">Hover to inspect ↗</span>
+      </div>
+      <h4 class="hw-h">Faster triage & more time with patients</h4>
+    </div>
+    <div class="hw-detail s4-kpis">
+      <div class="s4-kpi"><b>Earlier</b><span>Emergency stroke & fracture alerts reach care teams faster.</span></div>
+      <div class="s4-kpi"><b>Focused</b><span>Automated visit notes reduce typing so doctors listen more.</span></div>
+      <div class="s4-kpi"><b>100%</b><span>Human-led care across all 10 researched clinical AI systems.</span></div>
+    </div>
+  `
 };
-document.querySelectorAll('.scr').forEach(el => el.innerHTML = steps[el.dataset.s]);
+
+document.querySelectorAll('.scr').forEach(el => {
+  el.innerHTML = steps[el.dataset.s];
+  el.addEventListener('click', () => el.classList.toggle('open'));
+});
 
 const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold: .35});
 document.querySelectorAll('.vl, .scr, .pic').forEach(el => io.observe(el));
