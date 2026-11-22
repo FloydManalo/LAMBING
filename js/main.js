@@ -8,10 +8,9 @@ const blackVeil = document.getElementById('blackVeil');
 const ringCanvas = document.getElementById('ring-canvas');
 const rCtx = ringCanvas ? ringCanvas.getContext('2d', { alpha: true }) : null;
 
-const cols = ['#ff4a1c','#ffd08a','#2fe0b0','#a78bfa','#ffffff'];
-const streakCols = ['#2fe0b0','#ffd08a','#e879f9','#ff6a1a','#67e8f9','#fde047'];
+const cols = ['#ff4a1c', '#ffd08a', '#2fe0b0', '#a78bfa', '#ffffff'];
+const streakCols = ['#2fe0b0', '#ffd08a', '#e879f9', '#ff6a1a', '#67e8f9', '#fde047'];
 
-// Deterministic pseudo-random helper
 const hash = n => {
   const s = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
   return s - Math.floor(s);
@@ -31,14 +30,13 @@ const BOKEH_SPRITES = streakCols.map(color => {
   return off;
 });
 
-// 120 crisp non-glowing target ring ticks
+// 120 crisp target ring ticks
 const RING_TICKS = Array.from({ length: 120 }, (_, i) => ({
   angle: (i * 3 * Math.PI) / 180,
   r2: 150 + 14 + ((i * 37) % 26),
   color: cols[i % 5]
 }));
 
-// Group streaks by color index for batched canvas drawing (12 draw calls instead of 300)
 const STREAKS_BY_COLOR = streakCols.map(() => []);
 for (let i = 0; i < 144; i++) {
   const colorIdx = Math.floor(hash(i * 6.83 + 31) * streakCols.length);
@@ -60,52 +58,324 @@ const BOKEH_ORBS = Array.from({ length: 26 }, (_, i) => ({
 }));
 
 ring.innerHTML = `<g id="rg">${RING_TICKS.map(tk =>
-  `<line x1="${Math.cos(tk.angle)*150}" y1="${Math.sin(tk.angle)*150}" x2="${Math.cos(tk.angle)*tk.r2}" y2="${Math.sin(tk.angle)*tk.r2}" stroke="${tk.color}" stroke-width="2.5" stroke-linecap="round"/>`
+  `<line x1="${Math.cos(tk.angle) * 150}" y1="${Math.sin(tk.angle) * 150}" x2="${Math.cos(tk.angle) * tk.r2}" y2="${Math.sin(tk.angle) * tk.r2}" stroke="${tk.color}" stroke-width="2.5" stroke-linecap="round"/>`
 ).join('')}</g>`;
 
-// Tablet showcase: bento dashboard summarizing the 10 researched clinical AI systems.
-const CAT = {imaging:'#ff4a1c', heart:'#2fe0b0', screening:'#ffd08a', workflow:'#a78bfa'};
-const order = ['imaging','imaging','imaging','heart','heart','heart','screening','screening','screening','workflow'];
-const seg = order.map(c => `<i style="background:${CAT[c]}"></i>`).join('');
-let ticks = '';
-for (let i = 0; i < 60; i++) { const a = i * 6 * Math.PI / 180, r2 = 62 + 10 + (i * 29 % 18);
-  ticks += `<line x1="${Math.cos(a)*62}" y1="${Math.sin(a)*62}" x2="${Math.cos(a)*r2}" y2="${Math.sin(a)*r2}" stroke="${CAT[order[Math.floor(i/6)]]}" stroke-width="2.5" stroke-linecap="round"/>`; }
-const legend = [['Imaging',3,'imaging'],['Heart',3,'heart'],['Screening',3,'screening'],['Assistant',1,'workflow']].map(([n,c,k]) => `<span><i style="background:${CAT[k]}"></i>${n} ${c}</span>`).join('');
-const card = (cls, inner, img = '') => `<div class="bc ${cls}"${img ? ` style="--img:url('${img}')"` : ''}>${inner}</div>`;
+// Complete 10 Clinical AI Systems (Sourced from Research & Development.md)
 const SYSTEM_CARDS = [
-  { name: 'Aidoc', mark: 'AI', desc: 'Flags urgent strokes and brain bleeds on CT scans for faster triage.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.aidoc.com&size=256' },
-  { name: 'Lunit', mark: 'LU', desc: 'Highlights suspicious lung nodules and breast lesions on X-rays.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.lunit.io&size=256' },
-  { name: 'Gleamer', mark: 'GL', desc: 'Detects subtle bone fractures and joint injuries on radiographs.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.gleamer.ai&size=256' },
-  { name: 'Eko SENSORA', mark: 'EK', desc: 'Screens heart sounds for murmurs and AFib during routine exams.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.ekohealth.com&size=256' },
-  { name: 'Heartflow', mark: 'HF', desc: 'Builds a 3D model of coronary arteries from standard heart CT scans.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.heartflow.com&size=256' },
-  { name: 'Ultromics EchoGo', mark: 'UL', desc: 'Analyzes ultrasound heart videos to catch early heart failure signs.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.ultromics.com&size=256' },
-  { name: 'LumineticsCore', mark: 'LC', desc: 'Checks retinal photos for early signs of diabetic eye disease.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.digitaldiagnostics.com&size=256' },
-  { name: 'Skin Analytics DERM', mark: 'SA', desc: 'Evaluates dermoscopic skin photos to help flag possible melanoma.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://skin-analytics.com&size=256' },
-  { name: 'Ibex', mark: 'IB', desc: 'Assists pathologists in spotting prostate and breast cancer in biopsies.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://ibex-ai.com&size=256' },
-  { name: 'Abridge', mark: 'AB', desc: 'Turns doctor-patient conversations into organized clinical notes.', logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.abridge.com&size=256' }
+  {
+    name: 'Aidoc',
+    fullTitle: 'Aidoc – AI Medical Imaging and Patient Care',
+    domain: 'Medical Imaging',
+    mark: 'AI',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.aidoc.com&size=256',
+    desc: 'Detects urgent conditions like strokes and brain aneurysms on scans and alerts care teams right away.',
+    purpose: 'Aidoc is an AI healthcare platform used across radiology, heart care, and brain/blood vessel care to help medical teams recognize urgent findings, respond to critical cases, and improve patient care coordination.',
+    functions: [
+      'Analyzes medical scans to identify possible health problems.',
+      'Helps detect signs of stroke, brain aneurysms, and blood vessel problems.',
+      'Sends real-time alerts to healthcare teams when urgent findings are detected.',
+      'Helps doctors communicate, coordinate treatment, and support patient follow-up across hospital systems.'
+    ],
+    helps: 'Helps doctors review scans and identify cases needing immediate attention while improving team communication—reducing delays in medical assessment and treatment.',
+    pros: [
+      'Helps doctors identify urgent cases',
+      'Supports faster communication between medical teams',
+      'Makes patient management more organized',
+      'Helps reduce delays in reviewing important scans'
+    ],
+    cons: [
+      'AI may sometimes produce incorrect findings',
+      'Doctors still need to review the results',
+      'Requires compatible hospital systems',
+      'Installation and maintenance may be costly'
+    ],
+    tech: 'Medical image analysis, machine learning, and automated alerts',
+    url: 'https://www.aidoc.com/'
+  },
+  {
+    name: 'Lunit',
+    fullTitle: 'Lunit – AI for Cancer Detection and Care',
+    domain: 'Medical Imaging',
+    mark: 'LU',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.lunit.io&size=256',
+    desc: 'Examines chest X-rays, mammograms, and tissue samples to spot early signs of cancer.',
+    purpose: 'Lunit uses AI to help doctors detect cancer and examine medical images for cancer screening and treatment research, supporting earlier detection and informed clinical decisions.',
+    functions: [
+      'Analyzes chest X-rays and mammograms.',
+      'Helps identify possible signs of breast cancer and other chest abnormalities.',
+      'Assists doctors in reviewing medical images during cancer screening.',
+      'Analyzes cancer tissue images to support treatment research and planning.'
+    ],
+    helps: 'Helps doctors examine medical images and identify possible signs of cancer that may need further testing, supporting earlier detection and better-informed medical decisions.',
+    pros: [
+      'Supports cancer screening and early detection',
+      'Helps doctors review medical images more efficiently',
+      'Provides additional information for cancer research',
+      'Offers different AI tools for cancer care'
+    ],
+    cons: [
+      'AI may sometimes produce incorrect findings',
+      'Doctors still need to confirm the results',
+      'Some tools require specialized medical equipment',
+      'Not all products are available in every country'
+    ],
+    tech: 'Deep learning, medical image analysis, and AI-based tissue analysis',
+    url: 'https://www.lunit.io/en/'
+  },
+  {
+    name: 'Gleamer',
+    fullTitle: 'Gleamer – AI Medical Imaging',
+    domain: 'Medical Imaging',
+    mark: 'GL',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.gleamer.ai&size=256',
+    desc: 'Specialized X-ray, CT, and mammogram tools (BoneView, ChestView, LungCT, BreastView) for fast detection.',
+    purpose: 'Gleamer develops AI tools across X-rays, CT scans, mammograms, and MRI scans to support abnormality detection and make medical image review more efficient.',
+    functions: [
+      'BoneView: Helps detect possible bone fractures in X-ray images.',
+      'ChestView & LungCT: Analyzes chest X-rays and CT scans for abnormalities and lung nodules.',
+      'BoneMetrics: Measures bones and joints in medical images automatically.',
+      'BreastView & AutoReport: Assists mammogram review and prepares draft imaging reports.'
+    ],
+    helps: 'Helps doctors examine medical images efficiently and reduces time spent on repetitive measurements and draft reports so injuries or illnesses are assessed earlier.',
+    pros: [
+      'Helps doctors identify possible abnormalities',
+      'Supports faster medical image review',
+      'Reduces time spent on certain medical tasks',
+      'Offers different AI tools for various examinations'
+    ],
+    cons: [
+      'AI may sometimes produce incorrect results',
+      'Doctors still need to review the findings',
+      'Requires compatible medical imaging systems',
+      'Some products may not be available in every healthcare facility'
+    ],
+    tech: 'Deep learning, medical image analysis, automated measurements, and AI-assisted reporting',
+    url: 'https://www.gleamer.ai/'
+  },
+  {
+    name: 'Eko SENSORA',
+    fullTitle: 'Eko Health – SENSORA (AI Heart Monitoring)',
+    domain: 'Heart & Vitals',
+    mark: 'EK',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.ekohealth.com&size=256',
+    desc: 'Pairs with digital stethoscopes to detect atrial fibrillation, heart murmurs, and low pumping ability.',
+    purpose: 'SENSORA works with compatible digital stethoscopes to analyze heart sounds and electrical signals, supporting heart examinations and identifying patients who need further testing.',
+    functions: [
+      'Analyzes heart sounds and electrical signals from the heart.',
+      'Helps detect atrial fibrillation, a type of irregular heartbeat.',
+      'Identifies certain heart murmurs that may be linked to heart problems.',
+      'Identifies signs of reduced heart pumping ability and displays results for clinicians.'
+    ],
+    helps: 'Helps doctors identify possible heart conditions during routine checkups, supporting earlier follow-up testing when signs of a heart problem appear.',
+    pros: [
+      'Helps identify certain heart problems',
+      'Provides results during medical examinations',
+      'Supports earlier assessment of heart conditions',
+      'Can be used with compatible digital stethoscopes'
+    ],
+    cons: [
+      'Cannot detect every heart condition',
+      'Requires compatible medical devices',
+      'Doctors still need to review the findings',
+      'Software is intended for specific patient groups and medical settings'
+    ],
+    tech: 'Machine learning, heart sound analysis, and electrical signal analysis',
+    url: 'https://www.ekohealth.com/pages/sensora'
+  },
+  {
+    name: 'Heartflow',
+    fullTitle: 'Heartflow Analysis (AI Heart Scan Analysis)',
+    domain: 'Heart & Vitals',
+    mark: 'HF',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.heartflow.com&size=256',
+    desc: 'Builds a 3D model of heart arteries from a CT scan to check how plaque affects blood flow.',
+    purpose: 'Heartflow Analysis uses existing CT scan images to create a detailed 3D model of the heart’s arteries and help doctors assess coronary artery disease.',
+    functions: [
+      'Analyzes CT scan images of the heart’s arteries.',
+      'Creates detailed 3D models of the coronary arteries.',
+      'Helps identify and assess plaque buildup in the arteries.',
+      'Estimates how narrowed arteries affect blood flow to support treatment planning.'
+    ],
+    helps: 'Helps doctors understand possible artery blockages and blood flow non-invasively, guiding decisions on whether additional tests or treatments are needed.',
+    pros: [
+      'Provides detailed information about heart arteries',
+      'Helps doctors assess coronary artery disease',
+      'Supports decisions about further testing and treatment',
+      'Uses information from an existing CT scan'
+    ],
+    cons: [
+      'Requires a suitable CT scan',
+      'Is not intended for every patient or heart condition',
+      'Image quality can affect the analysis',
+      'Doctors must review the results together with other medical information'
+    ],
+    tech: 'Artificial intelligence, 3D modeling, and computer-based blood flow analysis',
+    url: 'https://www.heartflow.com/'
+  },
+  {
+    name: 'Ultromics EchoGo',
+    fullTitle: 'Ultromics – EchoGo (AI Heart Disease Detection)',
+    domain: 'Heart & Vitals',
+    mark: 'UL',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.ultromics.com&size=256',
+    desc: 'Reviews heart ultrasound scans to catch subtle heart failure (HFpEF) and cardiac amyloidosis.',
+    purpose: 'EchoGo analyzes ultrasound images of the heart to help doctors recognize specific heart conditions—including HFpEF heart failure and cardiac amyloidosis—and decide on further testing.',
+    functions: [
+      'Analyzes ultrasound images (echocardiograms) of the heart.',
+      'Helps identify signs of HFpEF, a type of heart failure.',
+      'Screens for possible signs of cardiac amyloidosis (abnormal protein buildup).',
+      'Provides AI findings that doctors can use during heart assessment.'
+    ],
+    helps: 'Helps doctors recognize tricky heart conditions that are difficult to spot on routine exams, supporting earlier medical assessment and follow-up tests.',
+    pros: [
+      'Helps identify certain types of heart disease',
+      'Supports heart ultrasound examinations',
+      'Provides additional information for doctors',
+      'May help reduce delays in assessing specific heart conditions'
+    ],
+    cons: [
+      'Does not detect every heart condition',
+      'Requires suitable heart ultrasound images',
+      'AI findings are not enough to confirm a diagnosis',
+      'Doctors must consider the results together with other medical tests'
+    ],
+    tech: 'Deep learning and ultrasound image analysis',
+    url: 'https://www.ultromics.com/'
+  },
+  {
+    name: 'LumineticsCore',
+    fullTitle: 'Digital Diagnostics – LumineticsCore (AI Eye Disease Detection)',
+    domain: 'Early Screening',
+    mark: 'LC',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.digitaldiagnostics.com&size=256',
+    desc: 'Checks retinal eye scans in adults with diabetes to catch diabetic retinopathy early.',
+    purpose: 'Designed for adults aged 22+ with diabetes (not previously diagnosed with diabetic retinopathy) to make eye screening accessible right during routine appointments.',
+    functions: [
+      'Analyzes images taken of the back of the eyes (retina).',
+      'Detects signs of more than mild diabetic retinopathy.',
+      'Provides screening results without requiring a specialist to interpret each image.',
+      'Identifies patients who need further examination by an eye doctor.'
+    ],
+    helps: 'Allows healthcare providers to screen eligible patients with diabetes on the spot during clinic visits, catching diabetic eye disease earlier without long waits.',
+    pros: [
+      'Provides quick screening results',
+      'Supports early detection of diabetic eye disease',
+      'Makes eye screening more accessible',
+      'Can provide results without a specialist reviewing every image'
+    ],
+    cons: [
+      'Only intended for certain patients with diabetes',
+      'Cannot detect every type of eye disease',
+      'May sometimes produce incorrect results',
+      'Does not replace a complete eye examination'
+    ],
+    tech: 'Machine learning and AI image analysis',
+    url: 'https://www.digitaldiagnostics.com/products/eye-disease/lumineticscore/'
+  },
+  {
+    name: 'Skin Analytics DERM',
+    fullTitle: 'Skin Analytics – DERM (AI Skin Cancer Detection)',
+    domain: 'Early Screening',
+    mark: 'SA',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://skin-analytics.com&size=256',
+    desc: 'Assesses close-up photos of moles and skin spots to flag skin cancer and prioritize specialist care.',
+    purpose: 'DERM examines detailed images of moles and skin spots to identify possible signs of skin cancer and help clinical teams route patients to the right level of care.',
+    functions: [
+      'Analyzes detailed images of moles and other skin spots.',
+      'Checks for possible signs of skin cancer.',
+      'Assesses whether a skin concern appears low-risk or needs further medical review.',
+      'Helps healthcare teams decide which patients should see a skin specialist.'
+    ],
+    helps: 'Reduces unnecessary specialist appointments for low-risk skin spots while helping patients with possible skin cancer receive urgent assessment sooner.',
+    pros: [
+      'Supports the detection of possible skin cancer',
+      'Helps reduce waiting times in some healthcare settings',
+      'Makes skin screening more efficient',
+      'Helps healthcare teams prioritize patients who need specialist care'
+    ],
+    cons: [
+      'May sometimes produce incorrect results',
+      'Requires suitable images for proper analysis',
+      'Cannot assess every type of skin condition',
+      'Patients with suspicious findings still need specialist examination and tests'
+    ],
+    tech: 'Deep learning and AI image analysis',
+    url: 'https://skin-analytics.com/'
+  },
+  {
+    name: 'Ibex AI',
+    fullTitle: 'Ibex Medical Analytics – Ibex AI Platform (Cancer Detection)',
+    domain: 'Early Screening',
+    mark: 'IB',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://ibex-ai.com&size=256',
+    desc: 'Helps pathologists review digital biopsy slides for breast, prostate, and stomach cancers.',
+    purpose: 'Ibex analyzes digital images of tissue biopsy samples to help specialists identify cancer cells, review critical findings efficiently, and support accurate diagnosis.',
+    functions: [
+      'Analyzes digital images of tissue samples.',
+      'Helps identify possible signs of cancer.',
+      'Supports the examination of breast, prostate, and stomach cancers.',
+      'Assists specialists in reviewing findings and prioritizing cases needing closer inspection.'
+    ],
+    helps: 'Helps pathologists review biopsy slides more consistently and efficiently, supporting timely cancer diagnosis and informed treatment planning for patients.',
+    pros: [
+      'Supports cancer detection and diagnosis',
+      'Helps specialists review tissue samples more efficiently',
+      'Provides additional information during cancer assessment',
+      'May help improve the consistency of medical reviews'
+    ],
+    cons: [
+      'AI may sometimes miss abnormalities or produce incorrect findings',
+      'Requires digital imaging equipment for tissue samples',
+      'Specialists still need to review and confirm the findings',
+      'Some products are not approved for clinical use in every country'
+    ],
+    tech: 'Deep learning, digital tissue image analysis, and machine learning',
+    url: 'https://ibex-ai.com/solutions/'
+  },
+  {
+    name: 'Abridge',
+    fullTitle: 'Abridge – AI Healthcare Assistant',
+    domain: 'Clinical Assistant',
+    mark: 'AB',
+    logo: 'https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://www.abridge.com&size=256',
+    desc: 'Turns doctor–patient conversations into organized medical notes so doctors spend less time typing.',
+    purpose: 'Abridge assists healthcare professionals before, during, and after patient consultations by summarizing patient records and turning visit conversations into structured notes.',
+    functions: [
+      'Reviews patient records and summarizes important information before appointments.',
+      'Uses AI to turn doctor-patient conversations into medical notes.',
+      'Provides relevant patient information during consultations.',
+      'Helps prepare medical records, patient summaries, and follow-up documents.'
+    ],
+    helps: 'Cuts down repetitive documentation so doctors can focus face-to-face on listening to patient concerns and explaining medical needs clearly.',
+    pros: [
+      'Reduces time spent on medical documentation',
+      'Helps organize patient records',
+      'Allows doctors to focus more on patient care',
+      'Supports communication among healthcare teams'
+    ],
+    cons: [
+      'AI may sometimes misunderstand conversations',
+      'Generated notes may contain incorrect information',
+      'Doctors still need to review and correct the notes',
+      'Patient information must be kept private and secure'
+    ],
+    tech: 'Speech recognition, generative AI, and language processing',
+    url: 'https://www.abridge.com/'
+  }
 ];
 
-// Populate AI Health Hub Collage (Larger Cards, Strict Superpower-Style Scatter)
+// Populate AI Health Hub Constellation
 const HUB_LAYOUT = [
-  // Top-left large tilted orange card
   { x: '17%', y: '17%', w: 228, h: 192, rot: '-12deg', dx: '-34vw', dy: '-28vh', spin: '-20deg', theme: 't-orange' },
-  // Upper-left medium light card
   { x: '35%', y: '24%', w: 132, h: 152, rot: '6deg',   dx: '-14vw', dy: '-34vh', spin: '15deg',  theme: 't-light'  },
-  // Top-center bleeding orange card
   { x: '50%', y: '6%',  w: 174, h: 210, rot: '-2deg',  dx: '0vw',   dy: '-38vh', spin: '-10deg', theme: 't-orange' },
-  // Top-right wide tilted dark card
   { x: '82%', y: '18%', w: 276, h: 186, rot: '11deg',  dx: '36vw',  dy: '-30vh', spin: '22deg',  theme: 't-dark'   },
-  // Mid-left vertical dark card
   { x: '10%', y: '53%', w: 146, h: 188, rot: '5deg',   dx: '-40vw', dy: '2vh',   spin: '-16deg', theme: 't-dark'   },
-  // Mid-right vertical mint card
   { x: '89%', y: '54%', w: 152, h: 196, rot: '-6deg',  dx: '40vw',  dy: '4vh',   spin: '18deg',  theme: 't-mint'   },
-  // Bottom-left edge-bleeding light card
   { x: '18%', y: '93%', w: 224, h: 168, rot: '10deg',  dx: '-32vw', dy: '34vh',  spin: '20deg',  theme: 't-light'  },
-  // Bottom-center-left compact light card
   { x: '41%', y: '88%', w: 134, h: 142, rot: '-7deg',  dx: '-8vw',  dy: '36vh',  spin: '-14deg', theme: 't-light'  },
-  // Bottom-center-right medium dark card
   { x: '64%', y: '87%', w: 128, h: 128, rot: '8deg',   dx: '14vw',  dy: '34vh',  spin: '16deg',  theme: 't-dark'   },
-  // Bottom-right edge-bleeding orange card
   { x: '82%', y: '92%', w: 208, h: 184, rot: '-11deg', dx: '34vw',  dy: '32vh',  spin: '-22deg', theme: 't-orange' }
 ];
 
@@ -114,20 +384,97 @@ if (hubField) {
   hubField.innerHTML = SYSTEM_CARDS.map((sys, i) => {
     const pos = HUB_LAYOUT[i];
     return `
-      <a class="hub-node ${pos.theme}" href="#ai-tools"
-         style="--x:${pos.x};--y:${pos.y};--w:${pos.w}px;--h:${pos.h}px;--rot:${pos.rot};--dx:${pos.dx};--dy:${pos.dy};--spin:${pos.spin}">
+      <button type="button" class="hub-node ${pos.theme}" data-sys="${i}"
+        style="--x:${pos.x};--y:${pos.y};--w:${pos.w}px;--h:${pos.h}px;--rot:${pos.rot};--dx:${pos.dx};--dy:${pos.dy};--spin:${pos.spin}">
         <div class="hub-card">
           <div class="hub-logo">
             <img src="${sys.logo}" alt="${sys.name} logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
             <span>${sys.mark}</span>
           </div>
-          <p class="hub-desc">${sys.desc}</p>
+          <p class="hub-desc">${sys.desc}<br><strong>Click for full R&amp;D profile →</strong></p>
         </div>
         <span class="hub-caption">${sys.name}</span>
-      </a>
+      </button>
     `;
   }).join('');
 }
+
+// Open Full R&D Research Modal when a Constellation Card, Tablet Card, or Hero Pill is clicked
+const modal = document.getElementById('modal');
+const mClose = document.getElementById('mClose');
+
+function openSystemModal(index) {
+  const sys = SYSTEM_CARDS[index];
+  if (!sys || !modal) return;
+
+  document.getElementById('mDom').textContent = `${sys.domain} · Clinical AI System`;
+  document.getElementById('mTitle').textContent = sys.fullTitle;
+  document.getElementById('mBody').innerHTML = `
+    <div class="m-sec">
+      <h4>Purpose</h4>
+      <p>${sys.purpose}</p>
+    </div>
+    <div class="m-sec">
+      <h4>Key Functions</h4>
+      <ul>${sys.functions.map(fn => `<li>${fn}</li>`).join('')}</ul>
+    </div>
+    <div class="m-sec">
+      <h4>How It Helps Doctors &amp; Patients</h4>
+      <p>${sys.helps}</p>
+    </div>
+    <div class="m-grid2">
+      <div class="m-sec">
+        <h4>Advantages</h4>
+        <ul>${sys.pros.map(pro => `<li>${pro}</li>`).join('')}</ul>
+      </div>
+      <div class="m-sec">
+        <h4>Disadvantages &amp; Limits</h4>
+        <ul>${sys.cons.map(con => `<li>${con}</li>`).join('')}</ul>
+      </div>
+    </div>
+    <div class="m-foot">
+      <span class="m-tech">Tech: ${sys.tech}</span>
+      <a class="m-link" href="${sys.url}" target="_blank" rel="noopener noreferrer">Official Site ↗</a>
+    </div>
+  `;
+  modal.showModal();
+}
+
+if (modal) {
+  document.addEventListener('click', e => {
+    const node = e.target.closest('.hub-node, .sys-card, .exp-pill');
+    if (!node || node.dataset.sys === undefined) return;
+    e.preventDefault();
+    openSystemModal(Number(node.dataset.sys));
+  });
+
+  mClose?.addEventListener('click', () => modal.close());
+  modal.addEventListener('click', e => {
+    if (e.target === modal) modal.close();
+  });
+}
+
+// Tablet Showcase Data & Views
+const CAT = { imaging: '#ff4a1c', heart: '#2fe0b0', screening: '#ffd08a', workflow: '#a78bfa' };
+const order = ['imaging', 'imaging', 'imaging', 'heart', 'heart', 'heart', 'screening', 'screening', 'screening', 'workflow'];
+const seg = order.map(c => `<i style="background:${CAT[c]}"></i>`).join('');
+
+let ticks = '';
+for (let i = 0; i < 60; i++) {
+  const a = (i * 6 * Math.PI) / 180;
+  const r2 = 62 + 10 + ((i * 29) % 18);
+  ticks += `<line x1="${Math.cos(a) * 62}" y1="${Math.sin(a) * 62}" x2="${Math.cos(a) * r2}" y2="${Math.sin(a) * r2}" stroke="${CAT[order[Math.floor(i / 6)]]}" stroke-width="2.5" stroke-linecap="round"/>`;
+}
+
+const legend = [
+  ['Imaging', 3, 'imaging'],
+  ['Heart', 3, 'heart'],
+  ['Screening', 3, 'screening'],
+  ['Assistant', 1, 'workflow']
+].map(([n, c, k]) => `<span><i style="background:${CAT[k]}"></i>${n} ${c}</span>`).join('');
+
+const card = (cls, inner, img = '') =>
+  `<div class="bc ${cls}"${img ? ` style="--img:url('${img}')"` : ''}>${inner}</div>`;
 
 const LITERACY_TOPICS = [
   {
@@ -351,13 +698,11 @@ function renderLiteracyTopic(topic) {
 
     <div class="lit-steps">
       <h4>${topic.listTitle}</h4>
-      <ol>
-        ${topic.steps.map(step => `<li>${step}</li>`).join('')}
-      </ol>
+      <ol>${topic.steps.map(step => `<li>${step}</li>`).join('')}</ol>
     </div>
 
     <div class="lit-note">
-      <div class="lit-note-ic">R&D</div>
+      <div class="lit-note-ic">R&amp;D</div>
       <div>
         <strong>${topic.calloutTitle}</strong>
         <span>${topic.calloutBody}</span>
@@ -379,28 +724,24 @@ const RESEARCHERS = [
     name: 'Francis Floyd G. Manalo',
     initials: 'FM',
     role: 'BSCS 1st Year · Lead Developer, Slide Deck & Documentation',
-    photo: '',
     bio: 'Leads overall development, organizes project documentation, and prepares the CC 100 presentation deck for LAMBING at Batangas State University - Alangilan.'
   },
   {
     name: 'Jesus Karol M. Rombano',
     initials: 'JR',
     role: 'BSCS 1st Year · Full-Stack & UI/UX',
-    photo: '',
     bio: 'Builds end-to-end site functionality and shapes the user experience, ensuring smooth navigation across all interactive health literacy modules.'
   },
   {
     name: 'Yerahmiel M. De Roxas',
     initials: 'YD',
     role: 'BSCS 1st Year · Front-End & Designer',
-    photo: '',
     bio: 'Designs the visual layout, typography, and responsive front-end components that present clinical AI concepts in a clean, student-friendly format.'
   },
   {
     name: 'John Kirby G. Braceros',
     initials: 'JB',
     role: 'BSCS 1st Year · Research & Development',
-    photo: '',
     bio: 'Conducts primary research and verifies clinical functions, advantages, and safety limitations across all 10 healthcare AI platforms.'
   }
 ];
@@ -441,101 +782,106 @@ const DESK_FAQS = [
 function renderDeskScope(key) {
   const data = DESK_SCOPES[key] || DESK_SCOPES.method;
   const pillsHtml = data.tags
-    .map(tag => '<span class="desk-tag-item"><i class="desk-tag-dot"></i>' + tag + '</span>')
+    .map(tag => `<span class="desk-tag-item"><i class="desk-tag-dot"></i>${tag}</span>`)
     .join('');
   return `
-    <span class="desk-badge">${data.badge}</span>
-    <p class="desk-desc">${data.summary}</p>
+    <div>
+      <span class="desk-badge">${data.badge}</span>
+      <p class="desk-desc">${data.summary}</p>
+    </div>
     <div class="desk-tags">${pillsHtml}</div>
   `;
 }
 
 const views = {
-home: `<div class="bento">
-${card('k s2',`<small>R&D Database</small><h4>10 clinical AI platforms researched</h4><div class="seg">${seg}</div><div class="leg">${legend}</div>`)}
-${card('o',`<small>Clinical impact</small><b class="num">05</b><small>Core ways AI assists doctors & patients</small>`,'https://i.pinimg.com/1200x/32/75/8c/32758c4905e2a04cc1a5e08695c36d28.jpg')}
-${card('w',`<small>Core technologies</small><svg viewBox="0 0 200 110" class="gauge"><path d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="#e6e6e6" stroke-width="10" stroke-linecap="round"/><path d="M20 100A80 80 0 0 1 155 42" fill="none" stroke="#ff4a1c" stroke-width="10" stroke-linecap="round"/></svg><h4>Deep Learning</h4><p>Powers image analysis, 3D artery modeling, heart sound checks, and speech notes.</p>`)}
-${card('k',`<small>Specialty coverage</small><h4>10 systems, 4 domains</h4><svg viewBox="-100 -100 200 200" class="ringm">${ticks}</svg>`)}
-${card('w',`<small>Mandatory physician verification</small><div class="dr"><span>Dr</span>Licensed physician</div><p class="st">AI flags potential finding</p><p class="st">Doctor reviews & confirms</p><p class="st">Patient receives guided care</p>`)}
-</div>`,
-systems: `<div class="sys-board">
-  <div class="sys-top">
-    <h3>AI systems</h3>
-    <a class="sys-all" href="#ai-tools"><span>10</span>Inspect all 10 systems →</a>
-  </div>
-  <div class="sys-grid">
-    ${SYSTEM_CARDS.map(s => `
-      <a class="sys-card" href="#ai-tools">
-        <div class="sys-thumb">
-          <div class="sys-logo-box">
-            <img src="${s.logo}" alt="${s.name} logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-            <span class="sys-fallback">${s.mark}</span>
+  home: `<div class="bento">
+    ${card('k s2', `<small>R&amp;D Database</small><h4>10 clinical AI platforms researched</h4><div class="seg">${seg}</div><div class="leg">${legend}</div>`)}
+    ${card('o', `<small>Clinical impact</small><b class="num">05</b><small>Core ways AI assists doctors &amp; patients</small>`, 'https://i.pinimg.com/1200x/32/75/8c/32758c4905e2a04cc1a5e08695c36d28.jpg')}
+    ${card('w', `<small>Core technologies</small><svg viewBox="0 0 200 110" class="gauge"><path d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="#e6e6e6" stroke-width="10" stroke-linecap="round"/><path d="M20 100A80 80 0 0 1 155 42" fill="none" stroke="#ff4a1c" stroke-width="10" stroke-linecap="round"/></svg><h4>Deep Learning</h4><p>Powers image analysis, 3D artery modeling, heart sound checks, and speech notes.</p>`)}
+    ${card('k', `<small>Specialty coverage</small><h4>10 systems, 4 domains</h4><svg viewBox="-100 -100 200 200" class="ringm">${ticks}</svg>`)}
+    ${card('w', `<small>Mandatory physician verification</small><div class="dr"><span>Dr</span>Licensed physician</div><p class="st">AI flags potential finding</p><p class="st">Doctor reviews &amp; confirms</p><p class="st">Patient receives guided care</p>`)}
+  </div>`,
+
+  systems: `<div class="sys-board">
+    <div class="sys-top">
+      <h3>AI systems</h3>
+      <a class="sys-all" href="#ai-hub"><span>10</span>Inspect in AI Health Hub →</a>
+    </div>
+    <div class="sys-grid">
+      ${SYSTEM_CARDS.map((s, idx) => `
+        <a class="sys-card" href="#ai-hub" data-sys="${idx}">
+          <div class="sys-thumb">
+            <div class="sys-logo-box">
+              <img src="${s.logo}" alt="${s.name} logo" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+              <span class="sys-fallback">${s.mark}</span>
+            </div>
           </div>
-        </div>
-        <h5>${s.name}</h5>
-        <p>${s.desc}</p>
-        <span class="sys-cta">Learn more</span>
-      </a>
-    `).join('')}
-  </div>
-</div>`,
-guides: `<div class="lit-board">
-  <aside class="lit-nav" aria-label="AI literacy principles">
-    <div class="lit-badge" title="10 R&D Systems">10</div>
-    <div class="lit-nav-list">
-      ${LITERACY_TOPICS.map((t, i) => `
-        <button type="button" class="lit-tab ${i === 0 ? 'on' : ''}" data-lit="${t.id}">
-          <span class="lit-bullet"></span>${t.label}
-        </button>
+          <h5>${s.name}</h5>
+          <p>${s.desc}</p>
+          <span class="sys-cta">Read R&amp;D profile</span>
+        </a>
       `).join('')}
     </div>
-  </aside>
-  <article class="lit-main" id="litMain">
-    ${renderLiteracyTopic(LITERACY_TOPICS[0])}
-  </article>
-</div>`,
-safety: `<div class="res-board">
-  <div class="res-top">
-    <div>
-      <h3>Researchers</h3>
-      <p class="res-sub">CC 100: Introduction to Computing · Category 9 Research Team</p>
-    </div>
-    <div class="res-uni">
-      <span class="res-crest" aria-hidden="true">BSU</span>
+  </div>`,
+
+  guides: `<div class="lit-board">
+    <aside class="lit-nav" aria-label="AI literacy principles">
+      <div class="lit-badge" title="10 R&D Systems">10</div>
+      <div class="lit-nav-list">
+        ${LITERACY_TOPICS.map((t, i) => `
+          <button type="button" class="lit-tab ${i === 0 ? 'on' : ''}" data-lit="${t.id}">
+            <span class="lit-bullet"></span>${t.label}
+          </button>
+        `).join('')}
+      </div>
+    </aside>
+    <article class="lit-main" id="litMain">
+      ${renderLiteracyTopic(LITERACY_TOPICS[0])}
+    </article>
+  </div>`,
+
+  safety: `<div class="res-board">
+    <div class="res-top">
       <div>
-        <strong>Batangas State University</strong>
-        <small>Alangilan Campus · BS Computer Science</small>
+        <h3>Researchers</h3>
+        <p class="res-sub">CC 100: Introduction to Computing · Category 9 Research Team</p>
+      </div>
+      <div class="res-uni">
+        <span class="res-crest" aria-hidden="true">BSU</span>
+        <div>
+          <strong>Batangas State University</strong>
+          <small>Alangilan Campus · BS Computer Science</small>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="res-grid">
-    ${RESEARCHERS.map(r => `
-      <article class="res-card">
-        <div class="res-head">
-          <div class="res-avatar" title="Profile photo placeholder for ${r.name}">
-            ${r.photo ? `<img src="${r.photo}" alt="${r.name}" onerror="this.remove()">` : ''}
-            <span class="res-init">${r.initials}</span>
+    <div class="res-grid">
+      ${RESEARCHERS.map(r => `
+        <article class="res-card">
+          <div class="res-head">
+            <div class="res-avatar">
+              <span class="res-init">${r.initials}</span>
+            </div>
+            <div class="res-meta">
+              <h5>${r.name}</h5>
+              <span>${r.role}</span>
+            </div>
           </div>
-          <div class="res-meta">
-            <h5>${r.name}</h5>
-            <span>${r.role}</span>
+          <p class="res-bio">${r.bio}</p>
+          <div class="res-foot">
+            <span class="res-campus"><i class="res-spartan"></i>BatStateU - Alangilan</span>
+            <span class="res-tag">Red Spartans · BSCS</span>
           </div>
-        </div>
-        <p class="res-bio">${r.bio}</p>
-        <div class="res-foot">
-          <span class="res-campus"><i class="res-spartan"></i>BatStateU - Alangilan</span>
-          <span class="res-tag">Red Spartans · BSCS</span>
-        </div>
-      </article>
-    `).join('')}
-  </div>
-</div>`,
-desk: `<div class="desk-board">
+        </article>
+      `).join('')}
+    </div>
+  </div>`,
+
+  desk: `<div class="desk-board">
     <div class="desk-top">
       <section class="desk-scope">
         <div class="desk-scope-head">
           <div>
-            <span class="desk-eyebrow">Course & Research Scope</span>
+            <span class="desk-eyebrow">Course &amp; Research Scope</span>
             <h4>CC 100 · Category 9</h4>
             <p class="desk-track">AI-Powered Healthcare Systems</p>
           </div>
@@ -565,11 +911,11 @@ desk: `<div class="desk-board">
     <section class="desk-qa">
       <div class="desk-qa-left">
         <div class="desk-qa-head">
-          <span class="desk-live"><i class="desk-pulse"></i>R&D Feedback Desk</span>
+          <span class="desk-live"><i class="desk-pulse"></i>R&amp;D Feedback Desk</span>
           <h4>Questions about our research?</h4>
         </div>
         <div class="desk-chips">
-          ${DESK_FAQS.map((f, i) => '<button type="button" class="desk-chip ' + (i === 0 ? 'on' : '') + '" data-faq="' + i + '">' + f.q + '</button>').join('')}
+          ${DESK_FAQS.map((f, i) => `<button type="button" class="desk-chip ${i === 0 ? 'on' : ''}" data-faq="${i}">${f.q}</button>`).join('')}
         </div>
         <div class="desk-answer" id="deskAnswer">
           <strong>${DESK_FAQS[0].q}</strong>
@@ -581,8 +927,8 @@ desk: `<div class="desk-board">
         <label for="deskInput">Ask our CC 100 research team</label>
         <textarea id="deskInput" rows="2" placeholder="Type a question about our 10 clinical AI tools or R&D sources..."></textarea>
         <div class="desk-qa-actions">
-          <span>Replies via R&D Contact Section</span>
-          <button type="submit" class="desk-submit">Open the R&D desk →</button>
+          <span>Replies via R&amp;D Contact Section</span>
+          <button type="submit" class="desk-submit">Open the R&amp;D desk →</button>
         </div>
       </form>
     </section>
@@ -596,12 +942,36 @@ const tabs = [
   ['safety', 'Researchers', 'M16 11c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z'],
   ['desk', 'R&D scope', 'M5 4h14v16H5zM8 8h8M8 12h8M8 16h5']
 ];
-const panel = document.getElementById('panel'), bar = document.querySelector('.pills');
-bar.innerHTML = tabs.map(([k,n,d]) => `<button role="tab" data-t="${k}" aria-selected="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="${k==='desk'||k==='systems'?'none':'currentColor'}" stroke="currentColor" stroke-width="2"><path d="${d}"/></svg>${n}</button>`).join('');
+
+const panel = document.getElementById('panel');
+const bar = document.querySelector('.pills');
+
+bar.innerHTML = tabs
+  .map(([k, n, d]) => `<button role="tab" data-t="${k}" aria-selected="false"><svg width="16" height="16" viewBox="0 0 24 24" fill="${k === 'desk' || k === 'systems' ? 'none' : 'currentColor'}" stroke="currentColor" stroke-width="2"><path d="${d}"/></svg>${n}</button>`)
+  .join('');
+
 const pills = [...bar.children];
-function showView(k){ panel.innerHTML = views[k]; panel.style.animation = 'none'; void panel.offsetWidth; panel.style.animation = ''; pills.forEach(b => b.setAttribute('aria-selected', b.dataset.t === k)); }
-let idx = 0, auto = !still, seen = false;
-pills.forEach((b, i) => b.addEventListener('click', () => { auto = false; idx = i; showView(b.dataset.t); }));
+
+function showView(k) {
+  panel.innerHTML = views[k];
+  panel.style.animation = 'none';
+  void panel.offsetWidth;
+  panel.style.animation = '';
+  pills.forEach(b => b.setAttribute('aria-selected', b.dataset.t === k));
+}
+
+let idx = 0;
+let auto = !still;
+let seen = false;
+
+pills.forEach((b, i) => {
+  b.addEventListener('click', () => {
+    auto = false;
+    idx = i;
+    showView(b.dataset.t);
+  });
+});
+
 showView('home');
 
 document.addEventListener('click', e => {
@@ -667,12 +1037,12 @@ document.addEventListener('click', e => {
   tab.classList.add('on');
   tab.setAttribute('aria-selected', 'true');
 
-  const idx = Number(tab.dataset.adv);
+  const tabIdx = Number(tab.dataset.adv);
   viewer.style.animation = 'none';
   void viewer.offsetWidth;
   viewer.style.animation = '';
 
-  if (idx === 5) {
+  if (tabIdx === 5) {
     viewer.classList.add('is-limits');
     viewer.innerHTML = `
       <div class="adv-body">
@@ -688,23 +1058,31 @@ document.addEventListener('click', e => {
       </div>
     `;
   } else {
-    const item = ADV_ITEMS[idx];
+    const item = ADV_ITEMS[tabIdx];
     viewer.classList.remove('is-limits');
     viewer.innerHTML = `
       <img class="adv-pic" src="${item.img}" alt="${item.alt}">
       <div class="adv-body">
         <h3>${item.title}</h3>
         <p>${item.desc}</p>
-        <p class="ex">Researched tools: <a href="#ai-tools">${item.tools}</a></p>
+        <p class="ex">Researched tools: <a href="#ai-hub">${item.tools}</a></p>
       </div>
     `;
   }
 });
 
-new IntersectionObserver(e => { seen = e[0].isIntersecting; }, {threshold: .5}).observe(document.getElementById('tablet'));
-setInterval(() => { if (auto && seen) { idx = (idx + 1) % tabs.length; showView(tabs[idx][0]); } }, 4200);
+new IntersectionObserver(e => {
+  seen = e[0].isIntersecting;
+}, { threshold: 0.5 }).observe(document.getElementById('tablet'));
 
-// Smooth anchor links (lands directly on the revealed ring for #about)
+setInterval(() => {
+  if (auto && seen) {
+    idx = (idx + 1) % tabs.length;
+    showView(tabs[idx][0]);
+  }
+}, 4200);
+
+// Smooth anchor navigation
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const href = a.getAttribute('href');
@@ -721,11 +1099,21 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   });
 });
 
-// Fast scroll renderer: Hero Overlay (0 -> 0.35) -> Warp Tunnel (0.30 -> 0.75) -> Initiative Ring (0.70 -> 1.0)
-const fly = document.querySelector('.fly'), rg = document.getElementById('rg');
+// Scroll-driven Hero Overlay -> Warp Tunnel -> Initiative Ring Renderer
+const fly = document.querySelector('.fly');
+const rg = document.getElementById('rg');
 const clamp01 = v => Math.min(1, Math.max(0, v));
-const smoothstep = v => { const x = clamp01(v); return x * x * (3 - 2 * x); };
-let cw = 0, ch = 0, dpr = 1, dirty = true, warpP = 0, flyP = 0;
+const smoothstep = v => {
+  const x = clamp01(v);
+  return x * x * (3 - 2 * x);
+};
+
+let cw = 0;
+let ch = 0;
+let dpr = 1;
+let dirty = true;
+let warpP = 0;
+let flyP = 0;
 
 function resizeRingCanvas() {
   if (!ringCanvas || !rCtx) return;
@@ -736,6 +1124,7 @@ function resizeRingCanvas() {
   ringCanvas.height = Math.round(ch * dpr);
   dirty = true;
 }
+
 resizeRingCanvas();
 addEventListener('resize', resizeRingCanvas, { passive: true });
 addEventListener('scroll', () => { dirty = true; }, { passive: true });
@@ -743,7 +1132,6 @@ addEventListener('scroll', () => { dirty = true; }, { passive: true });
 function renderRingSequence(p) {
   if (!rCtx || !cw || !ch) return;
 
-  // 1. Hero zoom & fade into black (0.0 -> 0.36)
   const heroZoom = smoothstep(p / 0.38);
   const copyFade = 1 - smoothstep(p / 0.22);
   const veilAlpha = smoothstep((p - 0.16) / 0.22);
@@ -756,11 +1144,14 @@ function renderRingSequence(p) {
     heroCopy.style.opacity = copyFade.toFixed(3);
     heroCopy.style.transform = `translate3d(0, ${(-heroZoom * 28).toFixed(1)}px, 0)`;
   }
+  if (heroNotice) {
+    const noticeFade = 1 - smoothstep(p / 0.12);
+    heroNotice.style.opacity = noticeFade.toFixed(3);
+  }
   if (blackVeil) {
     blackVeil.style.opacity = veilAlpha.toFixed(3);
   }
 
-  // Clear transparent canvas so p=0 shows pure hero with zero overhead
   rCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
   rCtx.clearRect(0, 0, cw, ch);
 
@@ -775,7 +1166,6 @@ function renderRingSequence(p) {
   const maxR = Math.hypot(cx, cy) * 1.15;
   const ringRadius = (Math.min(560, cw * 0.88) / 400) * 150;
 
-  // 2. Bokeh orbs overlay on hero first (0.02 -> 0.42)
   const bokehAlpha = smoothstep(p / 0.1) * (1 - smoothstep((p - 0.26) / 0.18));
   if (bokehAlpha > 0.01) {
     for (let i = 0; i < BOKEH_ORBS.length; i++) {
@@ -794,7 +1184,6 @@ function renderRingSequence(p) {
     }
   }
 
-  // 3. Radial warp streaks start subtly over hero (p=0.06), peak in tunnel (p=0.45), clear out (p=0.82)
   const streakAlpha = smoothstep((p - 0.05) / 0.18) * (1 - smoothstep((p - 0.62) / 0.22));
   const innerClear = smoothstep((p - 0.44) / 0.36);
   const innerHoleR = 14 + innerClear * (ringRadius * 1.7);
@@ -807,7 +1196,6 @@ function renderRingSequence(p) {
       const group = STREAKS_BY_COLOR[c];
       rCtx.strokeStyle = streakCols[c];
 
-      // Batched soft outer glow pass
       rCtx.globalAlpha = streakAlpha * 0.2 * (1 - innerClear * 0.7);
       rCtx.lineWidth = 11;
       rCtx.beginPath();
@@ -822,7 +1210,6 @@ function renderRingSequence(p) {
       }
       rCtx.stroke();
 
-      // Batched bright inner core pass
       rCtx.globalAlpha = streakAlpha * 0.88;
       rCtx.lineWidth = 3.4;
       rCtx.stroke();
@@ -830,7 +1217,6 @@ function renderRingSequence(p) {
   }
   rCtx.globalAlpha = 1;
 
-  // 4. Crisp non-glowing Initiative ring & headline lock in (0.68 -> 1.0)
   const ringReveal = smoothstep((p - 0.66) / 0.22);
   const textReveal = smoothstep((p - 0.75) / 0.2);
   ring.style.opacity = ringReveal.toFixed(3);
@@ -855,7 +1241,7 @@ function frame() {
     renderRingSequence(warpP);
 
     const box = fly.getBoundingClientRect();
-    const goalFly = clamp01(-box.top / (box.height - innerHeight) * 1.85);
+    const goalFly = clamp01((-box.top / (box.height - innerHeight)) * 1.85);
     flyP += (goalFly - flyP) * 0.22;
     if (Math.abs(goalFly - flyP) < 0.0008) flyP = goalFly;
     fly.style.setProperty('--p', flyP.toFixed(4));
@@ -864,39 +1250,71 @@ function frame() {
   }
   requestAnimationFrame(frame);
 }
+
 requestAnimationFrame(frame);
 
-// AI literacy slider arrows.
-const sl = document.getElementById('slider');
-document.getElementById('prev').onclick = () => sl.scrollBy({left: -sl.clientWidth * .6, behavior: 'smooth'});
-document.getElementById('next').onclick = () => sl.scrollBy({left: sl.clientWidth * .6, behavior: 'smooth'});
-
-// Glowing curve draws when it appears on screen.
+// Responsible AI Curve Draw on Scroll
 const curve = document.getElementById('curve');
-curve.style.setProperty('--len', curve.getTotalLength());
-new IntersectionObserver((e, o) => { if (e[0].isIntersecting) { curve.classList.add('on'); o.disconnect(); } }, {threshold: .4}).observe(curve);
+if (curve) {
+  curve.style.setProperty('--len', curve.getTotalLength());
+  new IntersectionObserver((entries, obs) => {
+    if (entries[0].isIntersecting) {
+      curve.classList.add('on');
+      obs.disconnect();
+    }
+  }, { threshold: 0.4 }).observe(curve);
+}
 
-// Tablet follows the cursor: tilts toward the pointer and slides a soft glare across the glass.
-const tb = document.getElementById('tablet'), sc = tb.closest('.show');
+// Tablet Cursor Tilt & Glare
+const tb = document.getElementById('tablet');
+const sc = tb.closest('.show');
 let tx = 0, ty = 0, cx = 0, cy = 0, tg = 0, cg = 0, run = false;
-function follow(){
-  cx += (tx - cx) * .08; cy += (ty - cy) * .08; cg += (tg - cg) * .1;
+
+function follow() {
+  cx += (tx - cx) * 0.08;
+  cy += (ty - cy) * 0.08;
+  cg += (tg - cg) * 0.1;
+
   tb.style.transform = `perspective(1200px) rotateY(${cx * 14}deg) rotateX(${-cy * 10}deg) translate3d(${cx * 14}px,${cy * 10}px,0)`;
-  tb.style.setProperty('--sx', (50 + cx * 70) + '%');
-  tb.style.setProperty('--gx', (50 + cx * 90) + '%');
-  tb.style.setProperty('--gy', (50 + cy * 90) + '%');
+  tb.style.setProperty('--sx', `${50 + cx * 70}%`);
+  tb.style.setProperty('--gx', `${50 + cx * 90}%`);
+  tb.style.setProperty('--gy', `${50 + cy * 90}%`);
   tb.style.setProperty('--glare', (0.04 + cg * 0.16).toFixed(3));
-  tb.style.setProperty('--glow', (0.04 + cg * 0.24).toFixed(3));
-  sc.style.setProperty('--bx', cx); sc.style.setProperty('--by', cy);
-  if (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tg - cg) > .001) requestAnimationFrame(follow); else run = false;
-}
-function kick(){ if (!run) { run = true; requestAnimationFrame(follow); } }
-if (!still) {
-  sc.addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; const r = sc.getBoundingClientRect(); tx = (e.clientX - r.left) / r.width - .5; ty = (e.clientY - r.top) / r.height - .5; tg = 1; kick(); });
-  sc.addEventListener('pointerleave', () => { tx = 0; ty = 0; tg = 0; kick(); });
+  sc.style.setProperty('--bx', cx);
+  sc.style.setProperty('--by', cy);
+
+  if (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tg - cg) > 0.001) {
+    requestAnimationFrame(follow);
+  } else {
+    run = false;
+  }
 }
 
-// How clinical AI works (4 Unique Themes: Compact -> Expands on Hover/Tap)
+function kick() {
+  if (!run) {
+    run = true;
+    requestAnimationFrame(follow);
+  }
+}
+
+if (!still) {
+  sc.addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    const r = sc.getBoundingClientRect();
+    tx = (e.clientX - r.left) / r.width - 0.5;
+    ty = (e.clientY - r.top) / r.height - 0.5;
+    tg = 1;
+    kick();
+  });
+  sc.addEventListener('pointerleave', () => {
+    tx = 0;
+    ty = 0;
+    tg = 0;
+    kick();
+  });
+}
+
+// How Clinical AI Works Stepper Cards
 const steps = {
   1: `
     <div>
@@ -907,9 +1325,9 @@ const steps = {
       <h4 class="hw-h">Hospital devices capture raw medical data</h4>
     </div>
     <div class="hw-detail s1-rows">
-      <div class="s1-row"><i style="background:#ff4a1c"></i><span>CT Scans, X-Rays & Mammograms</span><em>Aidoc · Lunit · Gleamer · Heartflow</em></div>
-      <div class="s1-row"><i style="background:#2fe0b0"></i><span>Stethoscope Audio & Heart Ultrasounds</span><em>Eko SENSORA · Ultromics EchoGo</em></div>
-      <div class="s1-row"><i style="background:#ffd08a"></i><span>Retina, Skin & Biopsy Images</span><em>LumineticsCore · DERM · Ibex</em></div>
+      <div class="s1-row"><i style="background:#ff4a1c"></i><span>CT Scans, X-Rays &amp; Mammograms</span><em>Aidoc · Lunit · Gleamer · Heartflow</em></div>
+      <div class="s1-row"><i style="background:#2fe0b0"></i><span>Stethoscope Audio &amp; Heart Ultrasounds</span><em>Eko SENSORA · Ultromics EchoGo</em></div>
+      <div class="s1-row"><i style="background:#ffd08a"></i><span>Retina, Skin &amp; Biopsy Images</span><em>LumineticsCore · DERM · Ibex</em></div>
       <div class="s1-row"><i style="background:#a78bfa"></i><span>Doctor–Patient Consultation Speech</span><em>Abridge</em></div>
     </div>
   `,
@@ -923,7 +1341,7 @@ const steps = {
     </div>
     <div class="hw-detail s2-bars">
       <div class="s2-bar"><span>Medical Imaging</span><div class="s2-track"><span style="width:90%;background:#ff4a1c"></span></div><b>3 tools</b></div>
-      <div class="s2-bar"><span>Heart & Vitals</span><div class="s2-track"><span style="width:90%;background:#2fe0b0"></span></div><b>3 tools</b></div>
+      <div class="s2-bar"><span>Heart &amp; Vitals</span><div class="s2-track"><span style="width:90%;background:#2fe0b0"></span></div><b>3 tools</b></div>
       <div class="s2-bar"><span>Early Screening</span><div class="s2-track"><span style="width:90%;background:#f59e0b"></span></div><b>3 tools</b></div>
       <div class="s2-bar"><span>Clinical Notes</span><div class="s2-track"><span style="width:35%;background:#8b5cf6"></span></div><b>1 tool</b></div>
     </div>
@@ -944,7 +1362,7 @@ const steps = {
       <span class="s3-arrow">→</span>
       <div class="s3-box md">
         <small>Physician Decision (Final)</small>
-        <p>Doctor checks scans, symptoms & lab tests before confirming any diagnosis.</p>
+        <p>Doctor checks scans, symptoms &amp; lab tests before confirming any diagnosis.</p>
       </div>
     </div>
   `,
@@ -954,10 +1372,10 @@ const steps = {
         <span class="hw-kicker">Step 04 · Patient Outcome</span>
         <span class="hw-cue">Hover to inspect ↗</span>
       </div>
-      <h4 class="hw-h">Faster triage & more time with patients</h4>
+      <h4 class="hw-h">Faster triage &amp; more time with patients</h4>
     </div>
     <div class="hw-detail s4-kpis">
-      <div class="s4-kpi"><b>Earlier</b><span>Emergency stroke & fracture alerts reach care teams faster.</span></div>
+      <div class="s4-kpi"><b>Earlier</b><span>Emergency stroke &amp; fracture alerts reach care teams faster.</span></div>
       <div class="s4-kpi"><b>Focused</b><span>Automated visit notes reduce typing so doctors listen more.</span></div>
       <div class="s4-kpi"><b>100%</b><span>Human-led care across all 10 researched clinical AI systems.</span></div>
     </div>
@@ -969,9 +1387,18 @@ document.querySelectorAll('.scr').forEach(el => {
   el.addEventListener('click', () => el.classList.toggle('open'));
 });
 
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } }), {threshold: .35});
-document.querySelectorAll('.vl, .scr, .pic').forEach(el => io.observe(el));
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('on');
+      io.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.35 });
 
+document.querySelectorAll('.vl, .scr').forEach(el => io.observe(el));
+
+// R&D Scope Tabs, FAQ Chips & Contact Form Feedback
 document.addEventListener('click', e => {
   const scopeBtn = e.target.closest('.desk-pill');
   if (scopeBtn) {
@@ -990,18 +1417,46 @@ document.addEventListener('click', e => {
     if (!item || !ans) return;
     document.querySelectorAll('.desk-chip').forEach(b => b.classList.remove('on'));
     faqBtn.classList.add('on');
-    ans.innerHTML = '<strong>' + item.q + '</strong><p>' + item.a + '</p>';
+    ans.innerHTML = `<strong>${item.q}</strong><p>${item.a}</p>`;
   }
 });
 
 document.addEventListener('submit', e => {
-  if (e.target.id !== 'deskForm') return;
-  e.preventDefault();
-  const q = document.getElementById('deskInput')?.value.trim();
-  const contactSection = document.getElementById('contact');
-  if (contactSection) {
-    const targetField = contactSection.querySelector('textarea, input[type="text"]');
-    if (targetField && q) targetField.value = q;
-    contactSection.scrollIntoView({ behavior: 'smooth' });
+  if (e.target.id === 'deskForm') {
+    e.preventDefault();
+    const q = document.getElementById('deskInput')?.value.trim();
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      const targetField = contactSection.querySelector('textarea');
+      if (targetField && q) targetField.value = q;
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    return;
+  }
+
+  if (e.target.id === 'inquiry') {
+    e.preventDefault();
+    const out = e.target.querySelector('output');
+    if (out) {
+      out.textContent = 'Thank you! Your message has been logged for our CC 100 R&D team.';
+    }
+    e.target.reset();
   }
 });
+
+// Auto-hide top navigation bar on scroll down, reveal on scroll up
+const topNav = document.querySelector('nav');
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+  if (!topNav) return;
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY && currentScrollY > 90) {
+    topNav.classList.add('nav-hidden');
+  } else {
+    topNav.classList.remove('nav-hidden');
+  }
+
+  lastScrollY = Math.max(0, currentScrollY);
+}, { passive: true });

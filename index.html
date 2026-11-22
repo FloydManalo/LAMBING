@@ -1,223 +1,317 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>LAMBING: Learning AI for Medical Benefits, Innovation, and Nurturing Guidance</title>
-<link rel="icon" href="assets/icons/favicon.svg">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;600&family=JetBrains+Mono&display=swap">
-<link rel="stylesheet" href="css/style.css">
-</head><body>
-<nav><a class="brand" href="#home"><svg width="20" height="20" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6z" fill="#FF4A1C"/></svg>LAMBING</a>
-<div class="links"><a href="#about">The Initiative</a><a href="#ai-tools">AI Systems</a><a href="#guides">AI Literacy</a><a href="#contact">R&D Desk</a><a class="btn" href="#ai-hub">AI Health Hub</a></div></nav>
-<main>
-<div class="hero-stage" id="heroStage">
-  <div class="hero-sticky">
-    <section class="hero" id="home">
-  <svg class="ecg-wrap" viewBox="0 0 1000 160" preserveAspectRatio="none" aria-hidden="true">
-    <path class="ecg" fill="none" stroke="#fff" stroke-width="2.5" d="M0 80H300L335 80L360 24L395 140L425 52L450 80H640L670 80L695 36L725 122L750 80H1000"/>
-  </svg>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LAMBING: Learning AI for Medical Benefits, Innovation, and Nurturing Guidance</title>
+  <link rel="icon" href="assets/icons/favicon.svg">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;600&family=JetBrains+Mono&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
 
-  <div class="hero-copy">
-    <span class="hero-kicker">Learning AI for Medical Benefits, Innovation, and Nurturing Guidance</span>
-    <h1>LAMBING</h1>
-    <p>An educational medical AI literacy portal breaking down 10 verified clinical AI systems—how they help doctors spot urgent cases sooner, catch disease earlier, and keep human care at the center.</p>
-    <div class="hero-actions">
-      <a class="glass primary" href="#ai-tools">Explore the 10 AI Systems →</a>
-      <a class="glass secondary" href="#about">The Initiative</a>
+  <nav aria-label="Primary navigation">
+    <a class="nav-orb" href="#home" aria-label="LAMBING Home">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <line x1="12" y1="2" x2="12" y2="22"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <line x1="4.9" y1="4.9" x2="19.1" y2="19.1"/>
+        <line x1="19.1" y1="4.9" x2="4.9" y2="19.1"/>
+      </svg>
+    </a>
+    <div class="nav-dock">
+      <a href="#about">The Initiative</a>
+      <a href="#how">How It Works</a>
+      <a href="#advantages">Clinical Impact</a>
+      <a href="#ai-hub">AI Health Hub</a>
+      <a href="#contact">R&amp;D Desk</a>
     </div>
-  </div>
+  </nav>
 
-  <p class="notice"><b>Educational notice:</b> LAMBING explains real clinical AI tools for learning only. It does not provide medical advice or diagnoses.</p>
-</section>
+  <main>
+    <!-- Hero + Scroll Tunnel + Initiative Ring -->
+    <div class="hero-stage" id="heroStage">
+      <div class="hero-sticky">
+        <section class="hero" id="home">
+          <div class="hero-copy">
+            <span class="hero-kicker">Learning AI for Medical Benefits, Innovation, and Nurturing Guidance</span>
+            <h1><strong>LAMBING<sup>+</sup></strong> <span>Beyond Human Care.</span></h1>
+            <p>An educational medical AI literacy portal breaking down 10 verified clinical AI systems—how they help doctors spot urgent cases sooner, catch disease earlier, and keep human care at the center.</p>
+            <div class="hero-explore">
+              <span class="explore-lbl">Explore</span>
+              <button type="button" class="exp-pill" data-sys="0">AI's Sense</button>
+              <button type="button" class="exp-pill" data-sys="6">B' Eye</button>
+              <button type="button" class="exp-pill" data-sys="4">AI Neuro</button>
+              <a class="exp-arrow" href="#ai-hub" aria-label="Explore all 10 clinical AI systems">↓</a>
+            </div>
+          </div>
+        </section>
 
-    <div class="black-veil" id="blackVeil" aria-hidden="true"></div>
-    <canvas id="ring-canvas" aria-hidden="true"></canvas>
+        <p class="notice" id="heroNotice">
+          <b>Educational notice:</b> LAMBING explains real clinical AI tools for learning only. It does not provide medical advice or diagnoses.
+        </p>
 
-    <div class="ring-box" id="about">
-      <svg id="ring" viewBox="-200 -200 400 400" aria-hidden="true"></svg>
-      <div class="ring-c" id="ringCenter">
-        <span class="mono">The Initiative</span>
-        <h2>Behind the technology<br>helping doctors care.</h2>
-      </div>
-    </div>
-  </div>
-</div>
+        <div class="black-veil" id="blackVeil" aria-hidden="true"></div>
+        <canvas id="ring-canvas" aria-hidden="true"></canvas>
 
-<section class="black" id="initiative-copy">
-  <div class="wrap narrow"><p>Artificial intelligence is already helping hospitals identify strokes faster, detect early signs of cancer, and reduce clinical paperwork. However, most explanations online are filled with complex technical terms that are difficult to understand.</p><p>LAMBING explains 10 verified healthcare AI tools in clear, everyday language so students and patients can easily learn what each tool does, how it supports medical care, and what its limitations are.</p><p><b style="color:#fff">AI assists. Doctors still decide.</b></p>
-  <div class="metrics"><div><b>10</b>Verified clinical AI tools</div><div><b>04</b>Healthcare domains</div><div><b>100%</b>Physician-led decisions</div></div></div>
-</section>
-
-<section class="wrap show"><h2>A clearer picture of how AI supports modern care</h2>
-<div class="tablet" id="tablet"><div id="panel" class="screen"></div></div>
-<div class="pills" role="tablist" aria-label="Portal views"></div>
-<p class="sub">From emergency imaging and heart monitoring to early screening and clinical notes, always backed by a licensed physician.</p></section>
-
-<section class="how" id="how">
-  <div class="wrap">
-    <i class="vl tall"></i>
-    <p class="mono lab">How clinical AI works</p>
-    <h2 class="c" style="max-width:16ch">From hospital test to doctor-led care</h2>
-    <i class="vl"></i>
-
-    <article class="step">
-      <h3>1. Doctors gather medical data</h3>
-      <p class="sub">Every checkup starts with standard hospital tests—scans, heart sounds, close-up photos, or visit conversations.</p>
-      <div class="stage">
-        <span class="badge">1</span><i class="dash"></i>
-        <div class="scr" data-s="1" tabindex="0" role="button" aria-label="Step 1: Doctors gather medical data"></div>
-        <i class="dash"></i><span class="badge">1</span>
-      </div>
-      <p class="cap">Hover or tap a card to inspect each step.</p>
-      <i class="vl"></i>
-    </article>
-
-    <article class="step">
-      <h3>2. AI scans for key patterns</h3>
-      <p class="sub">Specialized software acts like a fast second pair of eyes, flagging urgent risks or organizing clinical notes.</p>
-      <div class="stage">
-        <span class="badge">2</span><i class="dash"></i>
-        <div class="scr" data-s="2" tabindex="0" role="button" aria-label="Step 2: AI scans for key patterns"></div>
-        <i class="dash"></i><span class="badge">2</span>
-      </div>
-      <p class="cap">Each of our 10 researched tools is trained for one specific clinical job.</p>
-      <i class="vl"></i>
-    </article>
-
-    <article class="step">
-      <h3>3. A licensed doctor verifies everything</h3>
-      <p class="sub">AI never diagnoses on its own. A physician reviews the AI alert alongside your symptoms and lab results.</p>
-      <div class="stage">
-        <span class="badge">3</span><i class="dash"></i>
-        <div class="scr" data-s="3" tabindex="0" role="button" aria-label="Step 3: A licensed doctor verifies everything"></div>
-        <i class="dash"></i><span class="badge">3</span>
-      </div>
-      <p class="cap">100% of our 10 researched platforms require human physician sign-off.</p>
-      <i class="vl"></i>
-    </article>
-
-    <article class="step">
-      <h3>4. Faster, safer patient care</h3>
-      <p class="sub">Critical emergencies get treated sooner, high-risk patients see specialists faster, and doctors spend less time typing.</p>
-      <div class="stage">
-        <span class="badge">4</span><i class="dash"></i>
-        <div class="scr" data-s="4" tabindex="0" role="button" aria-label="Step 4: Faster, safer patient care"></div>
-        <i class="dash"></i><span class="badge">4</span>
-      </div>
-      <p class="cap">Technology handles the heavy screening so doctors focus on people.</p>
-      <i class="vl"></i>
-    </article>
-  </div>
-</section>
-
-<section class="adv" id="advantages">
-  <div class="wrap">
-    <h2 class="c" style="max-width:16ch">How AI helps doctors care for patients</h2>
-    <p class="sub adv-intro">Software trained on scans, heart signals, and clinical speech to highlight what a doctor should inspect first—derived directly from our 10 researched systems.</p>
-
-    <div class="adv-stage" id="advStage">
-      <div class="adv-tabs" role="tablist" aria-label="Clinical benefits of AI">
-        <button type="button" class="adv-tab on" data-adv="0" role="tab" aria-selected="true">
-          <span class="mono">01</span>
-          <strong>Urgent cases are found sooner</strong>
-        </button>
-        <button type="button" class="adv-tab" data-adv="1" role="tab" aria-selected="false">
-          <span class="mono">02</span>
-          <strong>Disease signs are caught earlier</strong>
-        </button>
-        <button type="button" class="adv-tab" data-adv="2" role="tab" aria-selected="false">
-          <span class="mono">03</span>
-          <strong>Less paperwork, more listening</strong>
-        </button>
-        <button type="button" class="adv-tab" data-adv="3" role="tab" aria-selected="false">
-          <span class="mono">04</span>
-          <strong>Shorter waits for specialist checks</strong>
-        </button>
-        <button type="button" class="adv-tab" data-adv="4" role="tab" aria-selected="false">
-          <span class="mono">05</span>
-          <strong>Routine check-ups tell more</strong>
-        </button>
-        <button type="button" class="adv-tab lim" data-adv="5" role="tab" aria-selected="false">
-          <span class="mono">!</span>
-          <strong>Shared limitations across all 10 tools</strong>
-        </button>
-      </div>
-
-      <div class="adv-viewer" id="advViewer" aria-live="polite">
-        <img class="adv-pic" src="assets/images/adv-urgent.svg" alt="A scan with an urgent finding highlighted in orange">
-        <div class="adv-body">
-          <h3>Urgent cases are found sooner</h3>
-          <p>AI checks scans for emergencies like stroke, brain aneurysms, and fractures and alerts care teams right away so critical patients are seen first.</p>
-          <p class="ex">Researched tools: <a href="#ai-tools">Aidoc, Gleamer</a></p>
+        <div class="ring-box" id="about">
+          <svg id="ring" viewBox="-200 -200 400 400" aria-hidden="true"></svg>
+          <div class="ring-c" id="ringCenter">
+            <span class="mono">The Initiative</span>
+            <h2>Behind the technology<br>helping doctors care.</h2>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="fly" id="ai-hub">
-  <div class="stick">
-    <div class="hub-field" id="hubField" aria-label="10 researched medical AI systems"></div>
-    <div class="fly-t">
-      <h2>Explore all ten<br>clinical AI<br>platforms</h2>
-      <p>Hover any system to inspect how it supports modern care.</p>
+    <!-- Initiative Narrative & Key Metrics -->
+    <section class="black" id="initiative-copy">
+      <div class="wrap narrow">
+        <p>Artificial intelligence is already helping hospitals identify strokes faster, detect early signs of cancer, and reduce clinical paperwork. However, most explanations online are filled with complex technical terms that are difficult to understand.</p>
+        <p>LAMBING explains 10 verified healthcare AI tools in clear, everyday language so students and patients can easily learn what each tool does, how it supports medical care, and what its limitations are.</p>
+        <p><strong style="color:#fff">AI assists. Doctors still decide.</strong></p>
+        <div class="metrics">
+          <div><b>10</b>Verified clinical AI tools</div>
+          <div><b>04</b>Healthcare domains</div>
+          <div><b>100%</b>Physician-led decisions</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Tablet Bento Showcase -->
+    <section class="wrap show">
+      <h2>A clearer picture of how AI supports modern care</h2>
+      <div class="tablet" id="tablet">
+        <div id="panel" class="screen"></div>
+      </div>
+      <div class="pills" role="tablist" aria-label="Portal views"></div>
+      <p class="sub">From emergency imaging and heart monitoring to early screening and clinical notes, always backed by a licensed physician.</p>
+    </section>
+
+    <!-- 4-Step Clinical Workflow -->
+    <section class="how" id="how">
+      <div class="wrap">
+        <i class="vl tall"></i>
+        <p class="mono lab">How clinical AI works</p>
+        <h2 class="c">From hospital test to doctor-led care</h2>
+        <i class="vl"></i>
+
+        <article class="step">
+          <h3>1. Doctors gather medical data</h3>
+          <p class="sub">Every checkup starts with standard hospital tests—scans, heart sounds, close-up photos, or visit conversations.</p>
+          <div class="stage">
+            <span class="badge">1</span><i class="dash"></i>
+            <div class="scr" data-s="1" tabindex="0" role="button" aria-label="Step 1: Doctors gather medical data"></div>
+            <i class="dash"></i><span class="badge">1</span>
+          </div>
+          <p class="cap">Hover or tap a card to inspect each step.</p>
+          <i class="vl"></i>
+        </article>
+
+        <article class="step">
+          <h3>2. AI scans for key patterns</h3>
+          <p class="sub">Specialized software acts like a fast second pair of eyes, flagging urgent risks or organizing clinical notes.</p>
+          <div class="stage">
+            <span class="badge">2</span><i class="dash"></i>
+            <div class="scr" data-s="2" tabindex="0" role="button" aria-label="Step 2: AI scans for key patterns"></div>
+            <i class="dash"></i><span class="badge">2</span>
+          </div>
+          <p class="cap">Each of our 10 researched tools is trained for one specific clinical job.</p>
+          <i class="vl"></i>
+        </article>
+
+        <article class="step">
+          <h3>3. A licensed doctor verifies everything</h3>
+          <p class="sub">AI never diagnoses on its own. A physician reviews the AI alert alongside your symptoms and lab results.</p>
+          <div class="stage">
+            <span class="badge">3</span><i class="dash"></i>
+            <div class="scr" data-s="3" tabindex="0" role="button" aria-label="Step 3: A licensed doctor verifies everything"></div>
+            <i class="dash"></i><span class="badge">3</span>
+          </div>
+          <p class="cap">100% of our 10 researched platforms require human physician sign-off.</p>
+          <i class="vl"></i>
+        </article>
+
+        <article class="step">
+          <h3>4. Faster, safer patient care</h3>
+          <p class="sub">Critical emergencies get treated sooner, high-risk patients see specialists faster, and doctors spend less time typing.</p>
+          <div class="stage">
+            <span class="badge">4</span><i class="dash"></i>
+            <div class="scr" data-s="4" tabindex="0" role="button" aria-label="Step 4: Faster, safer patient care"></div>
+            <i class="dash"></i><span class="badge">4</span>
+          </div>
+          <p class="cap">Technology handles the heavy screening so doctors focus on people.</p>
+          <i class="vl"></i>
+        </article>
+      </div>
+    </section>
+
+    <!-- Clinical Benefits & Shared Limitations -->
+    <section class="adv" id="advantages">
+      <div class="wrap">
+        <h2 class="c">How AI helps doctors care for patients</h2>
+        <p class="sub adv-intro">Software trained on scans, heart signals, and clinical speech to highlight what a doctor should inspect first—derived directly from our 10 researched systems.</p>
+
+        <div class="adv-stage" id="advStage">
+          <div class="adv-tabs" role="tablist" aria-label="Clinical benefits of AI">
+            <button type="button" class="adv-tab on" data-adv="0" role="tab" aria-selected="true">
+              <span class="mono">01</span>
+              <strong>Urgent cases are found sooner</strong>
+            </button>
+            <button type="button" class="adv-tab" data-adv="1" role="tab" aria-selected="false">
+              <span class="mono">02</span>
+              <strong>Disease signs are caught earlier</strong>
+            </button>
+            <button type="button" class="adv-tab" data-adv="2" role="tab" aria-selected="false">
+              <span class="mono">03</span>
+              <strong>Less paperwork, more listening</strong>
+            </button>
+            <button type="button" class="adv-tab" data-adv="3" role="tab" aria-selected="false">
+              <span class="mono">04</span>
+              <strong>Shorter waits for specialist checks</strong>
+            </button>
+            <button type="button" class="adv-tab" data-adv="4" role="tab" aria-selected="false">
+              <span class="mono">05</span>
+              <strong>Routine check-ups tell more</strong>
+            </button>
+            <button type="button" class="adv-tab lim" data-adv="5" role="tab" aria-selected="false">
+              <span class="mono">!</span>
+              <strong>Shared limitations across all 10 tools</strong>
+            </button>
+          </div>
+
+          <div class="adv-viewer" id="advViewer" aria-live="polite">
+            <img class="adv-pic" src="assets/images/adv-urgent.svg" alt="A scan with an urgent finding highlighted in orange">
+            <div class="adv-body">
+              <h3>Urgent cases are found sooner</h3>
+              <p>AI checks scans for emergencies like stroke, brain aneurysms, and fractures and alerts care teams right away so critical patients are seen first.</p>
+              <p class="ex">Researched tools: <a href="#ai-hub">Aidoc, Gleamer</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Health Hub Constellation (All 10 Researched Tools) -->
+    <section class="fly" id="ai-hub">
+      <div class="stick">
+        <div class="hub-field" id="hubField" aria-label="10 researched medical AI systems"></div>
+        <div class="fly-t">
+          <h2>Explore all ten<br>clinical AI<br>platforms</h2>
+          <p>Hover any system to preview its role, or click to read its complete R&amp;D profile.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Domain Marquee -->
+    <div class="marq-box" aria-hidden="true">
+      <div class="marq mono">
+        <span>Medical imaging</span><span class="o">Heart &amp; vitals</span>
+        <span>Early screening</span><span class="o">Clinical documentation</span>
+        <span>Radiology</span><span class="o">Cardiology</span>
+        <span>Pathology</span><span class="o">Dermatology</span>
+        <span>Medical imaging</span><span class="o">Heart &amp; vitals</span>
+        <span>Early screening</span><span class="o">Clinical documentation</span>
+        <span>Radiology</span><span class="o">Cardiology</span>
+        <span>Pathology</span><span class="o">Dermatology</span>
+      </div>
     </div>
-  </div>
-</section>
 
-<div class="marq-box" aria-hidden="true"><div class="marq mono"><span>Medical imaging</span><span class="o">Heart & vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span><span>Medical imaging</span><span class="o">Heart & vitals</span><span>Early screening</span><span class="o">Clinical documentation</span><span>Radiology</span><span class="o">Cardiology</span><span>Pathology</span><span class="o">Dermatology</span></div></div>
+    <!-- Responsible AI Curve -->
+    <section class="black glow" id="process">
+      <div class="wrap" style="text-align:center">
+        <h2 style="max-width:14ch;margin:0 auto">Responsible AI, human doctors</h2>
+        <svg viewBox="0 0 800 400" class="curve-svg" role="img" aria-label="Three governance pillars along a rising line">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#ff4a1c"/>
+              <stop offset="1" stop-color="#ffd08a"/>
+            </linearGradient>
+          </defs>
+          <path id="curve" d="M20 340C220 340 240 90 420 150S660 300 780 50" fill="none" stroke="url(#g)" stroke-width="3"/>
+          <g fill="#fff">
+            <circle cx="20" cy="340" r="5" fill="#ff4a1c"/>
+            <text x="34" y="322" font-weight="600">Clinical speed</text>
+            <text x="34" y="344" font-size="12" fill="#aaa">Earlier detection and triage of urgent cases</text>
 
-<section class="wrap" id="ai-tools"><h2 class="c">10 medical AI tools, explained simply</h2>
-<p class="sub" style="text-align:center">Tap any system from our R&D database to view its purpose, core functions, advantages, limitations, and AI technology. A doctor always makes the final decision.</p>
-<div class="filters" role="group" aria-label="Filter AI systems">
-<button data-filter="all" aria-pressed="true">All Systems (10)</button><button data-filter="imaging" aria-pressed="false">Medical Imaging</button>
-<button data-filter="heart" aria-pressed="false">Heart & Vitals</button><button data-filter="screening" aria-pressed="false">Early Screening</button>
-<button data-filter="workflow" aria-pressed="false">Clinical Assistant</button></div>
-<div class="grid" id="tool-grid"></div></section>
+            <circle cx="420" cy="150" r="5"/>
+            <text x="436" y="136" font-weight="600">Human connection</text>
+            <text x="436" y="158" font-size="12" fill="#aaa">Less paperwork, more time listening to patients</text>
 
-<section class="wrap" id="guides"><h2 class="c">What to know about medical AI</h2>
-<div class="slider-wrap"><button class="arr" id="prev" aria-label="Previous takeaway">←</button>
-<div class="slider" id="slider" tabindex="0">
-<article><span class="mono">01</span><h3>A second pair of eyes, not a doctor</h3><p>Across all 10 platforms we researched, AI flags possible findings, and a licensed physician or specialist must always review and confirm every result.</p></article>
-<article><span class="mono">02</span><h3>False alarms and missed signs happen</h3><p>Medical AI can generate false positives or overlook rare conditions. Doctors always combine AI outputs with physical exams and other clinical tests.</p></article>
-<article><span class="mono">03</span><h3>Scan quality and hardware matter</h3><p>Tools like Heartflow, EchoGo, and Ibex depend on clear medical images, digital biopsy scanners, and compatible hospital systems to work accurately.</p></article>
-<article><span class="mono">04</span><h3>Patient eligibility and data privacy</h3><p>Some tools serve specific groups, like LumineticsCore for adults 22+ with diabetes, while conversational tools like Abridge require strict patient privacy safeguards.</p></article>
-</div><button class="arr" id="next" aria-label="Next takeaway">→</button></div></section>
+            <circle cx="780" cy="50" r="5" fill="#ffd08a"/>
+            <g text-anchor="end">
+              <text x="766" y="28" font-weight="600">Mandatory physician verification</text>
+              <text x="766" y="48" font-size="12" fill="#aaa">Licensed doctors always review and confirm AI results</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </section>
 
-<section class="black glow" id="process"><div class="wrap" style="text-align:center"><h2 style="max-width:14ch;margin:0 auto">Responsible AI, human doctors</h2>
-<svg viewBox="0 0 800 400" class="curve-svg" role="img" aria-label="Three governance pillars along a rising line">
-<defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff4a1c"/><stop offset="1" stop-color="#ffd08a"/></linearGradient></defs>
-<path id="curve" d="M20 340C220 340 240 90 420 150S660 300 780 50" fill="none" stroke="url(#g)" stroke-width="3"/>
-<g fill="#fff"><circle cx="20" cy="340" r="5" fill="#ff4a1c"/><text x="34" y="322" font-weight="600">Clinical speed</text><text x="34" y="344" font-size="12" fill="#aaa">Earlier detection and triage of urgent cases</text>
-<circle cx="420" cy="150" r="5"/><text x="436" y="136" font-weight="600">Human connection</text><text x="436" y="158" font-size="12" fill="#aaa">Less paperwork, more time listening to patients</text>
-<circle cx="780" cy="50" r="5" fill="#ffd08a"/><g text-anchor="end"><text x="766" y="28" font-weight="600">Mandatory physician verification</text><text x="766" y="48" font-size="12" fill="#aaa">Licensed doctors always review and confirm AI results</text></g></g></svg></div></section>
+    <!-- Backend-Ready Q&A Companion -->
+    <section class="wrap" id="ai-companion">
+      <p class="root-label mono">LAMBING R&amp;D Companion — Interactive Q&amp;A Module (Backend Ready)</p>
+      <div id="chatbot-root">
+        <div class="bot-preview">
+          <div class="bot-msg">
+            <strong>LAMBING Medical AI Assistant</strong><br>
+            Ask how any of the 10 clinical AI tools work, what technologies they use, or what their advantages and limitations are. <em>Educational literacy only — not a medical diagnosis.</em>
+          </div>
+          <div class="bot-chips">
+            <span>“How does Heartflow build a 3D model of heart arteries?”</span>
+            <span>“What is the difference between Aidoc and Gleamer?”</span>
+            <span>“Why can’t medical AI replace a doctor?”</span>
+          </div>
+          <div class="bot-bar">
+            <span>Ask a question about our 10 researched healthcare AI tools…</span>
+            <b>Backend Ready</b>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<section class="wrap" style="padding-top:0"><p class="root-label mono">LAMBING R&D Companion — Interactive Q&A Module (Backend Ready)</p>
-<div id="chatbot-root">
-  <div class="bot-preview">
-    <div class="bot-msg">
-      <strong>LAMBING Medical AI Assistant</strong><br>
-      Ask how any of the 10 clinical AI tools work, what technologies they use, or what their advantages and limitations are. <em>Educational literacy only — not a medical diagnosis.</em>
+    <!-- R&D Contact & Feedback Desk -->
+    <section class="wrap" id="contact">
+      <h2 class="c">Project &amp; R&amp;D desk</h2>
+      <div class="contact">
+        <ul class="desk">
+          <li><span>Course &amp; Track</span><b>CC 100 · Category 9: AI-Powered Healthcare Systems</b></li>
+          <li><span>Developers</span><b>1st-Year BS Computer Science · BatStateU – Alangilan</b></li>
+          <li><span>Research Scope</span><b>10 Verified Clinical AI Platforms · Official Documentation</b></li>
+        </ul>
+        <form id="inquiry">
+          <label for="n">Full name</label>
+          <input id="n" required>
+          <label for="e">Email address</label>
+          <input id="e" type="email" placeholder="26-00001@g.batstate-u.edu.ph" required>
+          <label for="m">Question about our medical AI research</label>
+          <textarea id="m" rows="4" required></textarea>
+          <button class="btn" type="submit">Send feedback</button>
+          <output aria-live="polite"></output>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="big" aria-hidden="true">lambing</p>
+    <p>LAMBING · CC 100 Final Project · Educational medical AI literacy only. It does not replace professional medical advice.</p>
+  </footer>
+
+  <!-- Full R&D Research Modal for Constellation Cards -->
+  <dialog id="modal" aria-labelledby="mTitle">
+    <div class="m-box">
+      <div class="m-top">
+        <div>
+          <span class="mono" id="mDom"></span>
+          <h3 id="mTitle"></h3>
+        </div>
+        <button type="button" class="m-x" id="mClose" aria-label="Close">✕</button>
+      </div>
+      <div class="m-body" id="mBody"></div>
     </div>
-    <div class="bot-chips">
-      <span>“How does Heartflow build a 3D model of heart arteries?”</span>
-      <span>“What is the difference between Aidoc and Gleamer?”</span>
-      <span>“Why can’t medical AI replace a doctor?”</span>
-    </div>
-    <div class="bot-bar">
-      <span>Ask a question about our 10 researched healthcare AI tools…</span>
-      <b>Backend Ready</b>
-    </div>
-  </div>
-</div></section>
+  </dialog>
 
-<section class="wrap" id="contact"><h2 class="c">Project & R&D desk</h2>
-<div class="contact"><ul class="desk"><li><span>Course & Track</span><b>CC 100 · Category 9: AI-Powered Healthcare Systems</b></li><li><span>Developers</span><b>1st-Year BS Computer Science · BatStateU – Alangilan</b></li><li><span>Research Scope</span><b>10 Verified Clinical AI Platforms · Official Documentation</b></li></ul>
-<form id="inquiry"><label for="n">Full name</label><input id="n" required>
-<label for="e">Email address</label><input id="e" type="email" placeholder="26-00001@g.batstate-u.edu.ph" required>
-<label for="m">Question about our medical AI research</label><textarea id="m" rows="4" required></textarea>
-<button class="btn" type="submit">Send feedback</button><output aria-live="polite"></output></form></div></section>
-</main>
-<footer><p class="big" aria-hidden="true">lambing</p><p>LAMBING · CC 100 Final Project · Educational medical AI literacy only. It does not replace professional medical advice.</p></footer>
-<dialog id="tool-modal" aria-label="AI system details"><button class="close" aria-label="Close">×</button><div class="body"></div></dialog>
-<script src="js/tools-data.js"></script><script src="js/main.js"></script>
-</body></html>
+  <script src="js/main.js"></script>
+</body>
+</html>
