@@ -373,10 +373,10 @@ const HUB_LAYOUT = [
   { x: '82%', y: '18%', w: 276, h: 186, rot: '11deg',  dx: '36vw',  dy: '-30vh', spin: '22deg',  theme: 't-dark'   },
   { x: '10%', y: '53%', w: 146, h: 188, rot: '5deg',   dx: '-40vw', dy: '2vh',   spin: '-16deg', theme: 't-dark'   },
   { x: '89%', y: '54%', w: 152, h: 196, rot: '-6deg',  dx: '40vw',  dy: '4vh',   spin: '18deg',  theme: 't-mint'   },
-  { x: '18%', y: '93%', w: 224, h: 168, rot: '10deg',  dx: '-32vw', dy: '34vh',  spin: '20deg',  theme: 't-light'  },
-  { x: '41%', y: '88%', w: 134, h: 142, rot: '-7deg',  dx: '-8vw',  dy: '36vh',  spin: '-14deg', theme: 't-light'  },
-  { x: '64%', y: '87%', w: 128, h: 128, rot: '8deg',   dx: '14vw',  dy: '34vh',  spin: '16deg',  theme: 't-dark'   },
-  { x: '82%', y: '92%', w: 208, h: 184, rot: '-11deg', dx: '34vw',  dy: '32vh',  spin: '-22deg', theme: 't-orange' }
+  { x: '18%', y: '81%', w: 224, h: 168, rot: '10deg',  dx: '-32vw', dy: '34vh',  spin: '20deg',  theme: 't-light'  },
+  { x: '41%', y: '80%', w: 134, h: 142, rot: '-7deg',  dx: '-8vw',  dy: '36vh',  spin: '-14deg', theme: 't-light'  },
+  { x: '64%', y: '79%', w: 128, h: 128, rot: '8deg',   dx: '14vw',  dy: '34vh',  spin: '16deg',  theme: 't-dark'   },
+  { x: '82%', y: '80%', w: 208, h: 184, rot: '-11deg', dx: '34vw',  dy: '32vh',  spin: '-22deg', theme: 't-orange' }
 ];
 
 const hubField = document.getElementById('hubField');
